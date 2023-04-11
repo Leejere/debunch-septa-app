@@ -7,5 +7,14 @@ import Map from "./components/map/Map";
 const navEl = document.getElementById("nav");
 createRoot(navEl).render(<Nav />);
 
-const mapEl = document.getElementById("map");
-createRoot(mapEl).render(<Map />);
+const appEl = document.getElementById("app");
+
+function App() {
+  return (
+    <>
+      <Map />
+    </>
+  );
+}
+
+createRoot(appEl).render(<App />);

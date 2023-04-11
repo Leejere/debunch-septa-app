@@ -13,6 +13,7 @@ nav {
   @include respond-to("mobile") {
     height: $small-nav-height;
   }
+  z-index: 2;
 }
 
 .logo {
