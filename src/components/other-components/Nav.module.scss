@@ -1,12 +1,11 @@
 @import "../../styles/responsive";
 @import "../../styles/colors";
-
-$nav-height: 60px;
-$nav-gap: 5px;
-$small-nav-height: 40px;
+@import "../../styles/dimensions";
 
 nav {
+  position: relative;
   height: $nav-height;
+  width: 100%;
   gap: $nav-gap;
   display: flex;
   flex-direction: row;
@@ -25,7 +24,7 @@ nav {
   height: 100%;
   background-color: $primary;
   width: 100%;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 $border-radius-big $border-radius-big;
   display: flex;
   justify-content: space-between;
   gap: 20px;

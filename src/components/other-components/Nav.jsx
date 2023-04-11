@@ -5,7 +5,7 @@ import headerPicture from "../../assets/header-picture.png";
 import navStyles from "./Nav.module.scss";
 
 export default function Nav() {
-  const appName = "Debunched";
+  const appName = "Will It Bunch?";
   return (
     <nav className={navStyles.nav}>
       <img className={navStyles.logo} src={septaLogo} />
