@@ -1,9 +1,11 @@
-import "./css/styles.scss";
-import "./css/customized-bootstrap.scss";
+import "./styles/styles.scss";
 import { createRoot } from "react-dom/client";
-import Hello from "./components/Hello";
 import Nav from "./components/other-components/Nav";
+import Map from "./components/map/Map";
 
-const container = document.getElementById("root");
-const root = createRoot(container);
-root.render(<Nav />);
+// Navigation bar
+const navEl = document.getElementById("nav");
+createRoot(navEl).render(<Nav />);
+
+const mapEl = document.getElementById("map");
+createRoot(mapEl).render(<Map />);

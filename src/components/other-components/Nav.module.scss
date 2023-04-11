@@ -1,0 +1,62 @@
+@import "../../styles/responsive";
+@import "../../styles/colors";
+
+$nav-height: 60px;
+$nav-gap: 5px;
+$small-nav-height: 40px;
+
+nav {
+  height: $nav-height;
+  gap: $nav-gap;
+  display: flex;
+  flex-direction: row;
+  @include respond-to("mobile") {
+    height: $small-nav-height;
+  }
+}
+
+.logo {
+  height: 100%;
+  padding: $nav-gap 0 0 $nav-gap;
+}
+
+.bar {
+  height: 100%;
+  background-color: $primary;
+  width: 100%;
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.appName {
+  color: white;
+  font-weight: 600;
+  font-size: 2em;
+  padding: 0.5em;
+  margin: 0;
+  @include respond-to("tablet") {
+    font-size: 1.2em;
+  }
+}
+
+.headerPicture {
+  height: calc(#{$nav-height} / 2);
+  @include respond-to("tablet") {
+    height: calc(#{$nav-height} / 2.5);
+  }
+  @include respond-to("mobile") {
+    display: none;
+  }
+}
+
+.infoIcon {
+  color: white;
+  padding: 1em;
+  @include respond-to("mobile") {
+    padding: 0.5em;
+    margin-left: auto;
+  }
+}
