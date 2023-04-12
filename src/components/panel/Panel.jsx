@@ -2,6 +2,8 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import panelStyles from "./Panel.module.scss";
 
+import { directionDict } from "../../index.js";
+
 function ButtonGroup({ valueOptions, displayOptions, selected, handleClick }) {
   const buttons = valueOptions.map((value, index) => {
     const variant = value === selected ? "primary" : "light";
@@ -22,12 +24,14 @@ function ButtonGroup({ valueOptions, displayOptions, selected, handleClick }) {
 export default function Panel({ requestParams, setRequestParams }) {
   const routeOptions = ["21", "47", "33", "7"];
 
-  const directionOptions = {
-    21: ["Westbound", "Eastbound"], // In the sequence of 0 and 1.
-    33: ["Southbound", "Northbound"],
-    47: ["Southbound", "Northbound"],
-    7: ["Northbound", "Southbound"],
-  };
+  const directionOptions = {};
+  for (const key in directionDict) {
+    if (directionDict.hasOwnProperty(key)) {
+      const directions = directionDict[key];
+      directionOptions[key] = [directions[0], directions[1]];
+    }
+  }
+
   const routeSelectButtonGroup = (
     <ButtonGroup
       valueOptions={routeOptions}
