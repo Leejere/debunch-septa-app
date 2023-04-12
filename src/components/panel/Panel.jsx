@@ -24,9 +24,9 @@ export default function Panel({ requestParams, setRequestParams }) {
 
   const directionOptions = {
     21: ["Westbound", "Eastbound"], // In the sequence of 0 and 1.
-    33: ["Northbound", "Southbound"],
-    47: ["Northbound", "Southbound"],
-    7: ["Westbound", "Eastbound"],
+    33: ["Southbound", "Northbound"],
+    47: ["Southbound", "Northbound"],
+    7: ["Northbound", "Southbound"],
   };
   const routeSelectButtonGroup = (
     <ButtonGroup

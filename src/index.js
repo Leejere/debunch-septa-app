@@ -23,7 +23,11 @@ function App() {
 
   return (
     <>
-      <Map prediction={prediction} />
+      <Map
+        prediction={prediction}
+        requestParams={requestParams}
+        setRequestParams={setRequestParams}
+      />
       <Panel
         requestParams={requestParams}
         setRequestParams={setRequestParams}
