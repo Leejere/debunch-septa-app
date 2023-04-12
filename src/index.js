@@ -36,4 +36,11 @@ function App() {
   );
 }
 
+export const directionDict = {
+  21: { 0: "Eastbound", 1: "Westbound" },
+  33: { 0: "Southbound", 1: "Northbound" },
+  47: { 0: "Southbound", 1: "Northbound" },
+  7: { 0: "Northbound", 1: "Southbound" },
+};
+
 createRoot(appEl).render(<App />);
