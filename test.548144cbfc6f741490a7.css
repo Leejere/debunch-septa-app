@@ -12,5 +12,7 @@ nav{position:relative;height:60px;width:100%;gap:5px;display:flex;flex-direction
 
 .NtfHddarnzDsMBogDSTI{height:100%;width:100%;z-index:0;border-radius:20px}.cq_WbKAuuLpTOjaigD37{height:100%;width:calc(100% - 380px);z-index:0;overflow:hidden;border-radius:20px;box-shadow:0.05em 0.05em 0.3em rgba(0,0,0,0.25)}@media only screen and (max-width: 768px){.cq_WbKAuuLpTOjaigD37{width:100%}}
 
+.leaflet-div-icon{display:flex;align-items:center;justify-content:center;border-radius:50%;border-color:#174b7f}
+
 .KuzHdkAmifVR0YYCFHGC{height:100%;width:380px;z-index:1;overflow:hidden;background-color:white;border-radius:20px;box-shadow:0.05em 0.05em 0.3em rgba(0,0,0,0.25);padding:20px 10px}@media only screen and (max-width: 768px){.KuzHdkAmifVR0YYCFHGC{width:100%}}
 
