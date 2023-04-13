@@ -8,13 +8,14 @@ import L from "leaflet";
 
 // Dictionary of direction IDs corresponding to direction names
 import { directionDict, directionDictReversed } from "../../index.js";
-
 import makeBusFeatureCollection from "../../utils/makeBusFeatureCollection.js";
 
+import "./icons.scss";
+
 // Icons for buses
-const iconHtml = `<i class="fas fa-bus"></i>`;
+const busIconHtml = `<i class="fas fa-bus" style="color:#f04926; font-size:18px;"></i>`;
 const busIcon = L.divIcon({
-  html: iconHtml,
+  html: busIconHtml,
   iconSize: [30, 30], // Adjust the size as needed
   iconAnchor: [15, 15], // Adjust the anchor point as needed
 });
