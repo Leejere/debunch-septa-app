@@ -17,6 +17,7 @@ export default function Panel({
   const fetchPrediction = () => {
     console.log(requestParams);
   };
+
   return (
     <section className={panelStyles.container}>
       <TimeDisplayer />
@@ -34,7 +35,10 @@ export default function Panel({
         setRequestParams={setRequestParams}
         realtimeData={realtimeData}
       />
-      <GetPredictionButton onClick={fetchPrediction} />
+      <GetPredictionButton
+        onClick={fetchPrediction}
+        requestParams={requestParams}
+      />
     </section>
   );
 }
