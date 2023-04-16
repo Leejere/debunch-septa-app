@@ -19,7 +19,7 @@
 }
 
 .module {
-  padding: $panel-padding-large $panel-padding;
+  padding: $panel-padding $panel-padding-large;
   border-radius: $border-radius-big;
   box-shadow: $box-shadow;
   display: flex;
@@ -171,4 +171,29 @@ $switch-width: 25px;
 .getPredictionButton {
   font-size: 1.2rem;
   font-weight: 800;
+}
+
+.tripList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: $nav-gap;
+  font-size: 0.8rem;
+}
+
+.tripListItem {
+  display: flex;
+  gap: $nav-gap;
+}
+
+.tripButton {
+  font-size: 0.8rem;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  color: white;
 }

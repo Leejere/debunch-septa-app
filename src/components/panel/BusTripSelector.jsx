@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from "react";
 import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
+import Button from "react-bootstrap/Button";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 import { directionDictReversed } from "../..";
 
-const TripList = React.memo(function ({ activeTrips }) {
+const TripList = React.memo(function ({
+  activeTrips,
+  requestParams,
+  setRequestParams,
+}) {
   const tripsEl = activeTrips.map((trip) => {
+    const variant = trip.trip === requestParams.trip ? "danger" : "secondary";
     return (
-      <li key={trip.trip}>
-        <span>{trip.trip}</span>
+      <li key={trip.trip} className={panelStyles.tripListItem}>
+        <Button
+          variant={variant}
+          className={`py-0 ${panelStyles.tripButton}`}
+          onClick={() => {
+            setRequestParams({ ...requestParams, trip: trip.trip });
+          }}
+        >
+          {trip.trip}
+        </Button>
         <span>{trip.next_stop_name}</span>
       </li>
     );
   });
-  return <ul>{tripsEl}</ul>;
+  return <ul className={panelStyles.tripList}>{tripsEl}</ul>;
 });
 
 export default React.memo(function ({
@@ -47,7 +61,11 @@ export default React.memo(function ({
         modalHeading={"Trip Selection"}
         modalContent={modalContent}
       />
-      <TripList activeTrips={activeTrips} />
+      <TripList
+        activeTrips={activeTrips}
+        requestParams={requestParams}
+        setRequestParams={setRequestParams}
+      />
     </div>
   );
 });
