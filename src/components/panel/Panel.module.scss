@@ -46,3 +46,62 @@
   padding: 0;
   cursor: pointer;
 }
+
+.directionDisplayer {
+  display: flex;
+  justify-content: space-between;
+}
+
+$arrow-height: 24px;
+$arrow-width: 2px;
+$arrow-head-height: 12px;
+$switch-width: 25px;
+
+.arrowContainer {
+  position: relative;
+  flex-grow: 1;
+  height: $arrow-height;
+}
+
+.arrowBody {
+  position: absolute;
+  top: calc(50% - #{$arrow-width / 2});
+  left: 0;
+  right: 0;
+  height: $arrow-width;
+  background: $secondary;
+}
+
+.arrowHead {
+  position: absolute;
+  right: 0;
+  top: calc(50% - #{$arrow-head-height / 2});
+  width: $arrow-head-height;
+  height: $arrow-head-height;
+  background: $secondary;
+  clip-path: polygon(100% 50%, 0% 100%, 0% 0%);
+  display: flex;
+  align-items: center;
+}
+
+.switchIconContainer {
+  cursor: pointer;
+  width: $switch-width;
+  height: $switch-width;
+  position: absolute;
+  top: calc(50% - #{$switch-width / 2});
+  left: calc(50% - #{$switch-width / 2});
+  border-radius: 50%;
+  background-color: $primary;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.switchIcon {
+  width: 75%;
+  height: 75%;
+  color: white;
+  cursor: pointer;
+}

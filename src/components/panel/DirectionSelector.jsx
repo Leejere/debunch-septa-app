@@ -3,6 +3,45 @@ import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 import { directionDict } from "../../index.js";
 import { ButtonGroup } from "./RouteSelector";
+import { FiRepeat } from "react-icons/fi";
+
+const ArrowWithSwitch = () => {
+  return (
+    <div className={panelStyles.arrowContainer}>
+      <div className={panelStyles.switchIconContainer}>
+        <FiRepeat className={panelStyles.switchIcon} />
+      </div>
+      <div className={panelStyles.arrowBody} />
+      <div className={panelStyles.arrowHead} />
+    </div>
+  );
+};
+
+const DirectionDisplayer = React.memo(function ({
+  directionOptions,
+  requestParams,
+  setRequestParams,
+  startStop,
+  endStop,
+}) {
+  return (
+    <>
+      <ButtonGroup
+        valueOptions={["0", "1"]}
+        displayOptions={directionOptions[requestParams.route]}
+        selected={requestParams.direction}
+        handleClick={(value) => {
+          setRequestParams({ ...requestParams, direction: value });
+        }}
+      ></ButtonGroup>
+      <div className={panelStyles.directionDisplayer}>
+        <div className={panelStyles.directionDisplayerStop}>d</div>
+        <ArrowWithSwitch />
+        <div className={panelStyles.directionDisplayerStop}>d</div>
+      </div>
+    </>
+  );
+});
 
 export default React.memo(function ({
   requestParams,
@@ -22,6 +61,7 @@ export default React.memo(function ({
   const [startStop, setStartStop] = useState({ name: null, id: null });
   const [endStop, setEndStop] = useState({ name: null, id: null });
   useEffect(() => {
+    if (!stopsArray[0]) return;
     setStartStop({ name: stopsArray[0].name, id: stopsArray[0].id });
     setEndStop({
       name: stopsArray[stopsArray.length - 1].name,
@@ -38,14 +78,13 @@ export default React.memo(function ({
           "Select a direction based on the termini and arrows shown in the panel."
         }
       />
-      <ButtonGroup
-        valueOptions={["0", "1"]}
-        displayOptions={directionOptions[requestParams.route]}
-        selected={requestParams.direction}
-        handleClick={(value) => {
-          setRequestParams({ ...requestParams, direction: value });
-        }}
-      ></ButtonGroup>
+      <DirectionDisplayer
+        directionOptions={directionOptions}
+        requestParams={requestParams}
+        setRequestParams={setRequestParams}
+        startStop={startStop}
+        endStop={endStop}
+      />
     </div>
   );
 });
