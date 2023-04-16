@@ -25,7 +25,8 @@ export default React.memo(function ({ requestParams, setRequestParams }) {
   return (
     <div className={panelStyles.module}>
       <ModuleTitle
-        title={"Select a Route"}
+        title={"Predicting for:"}
+        titleHeavyPart={`${requestParams.route} Bus`}
         modalHeading={"Route Selection"}
         modalContent={
           "As a proof-of-concept, this app only supports a few routes that are mostly linked to Center City and University City."

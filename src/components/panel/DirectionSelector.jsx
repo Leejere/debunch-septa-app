@@ -39,22 +39,10 @@ const EndStopDisplayer = React.memo(function ({ abbr, name }) {
 });
 
 const DirectionDisplayer = React.memo(function ({
-  directionOptions,
-  requestParams,
   setRequestParams,
   startStop,
   endStop,
 }) {
-  const buttons = (
-    <ButtonGroup
-      valueOptions={["0", "1"]}
-      displayOptions={directionOptions[requestParams.route]}
-      selected={requestParams.direction}
-      handleClick={(value) => {
-        setRequestParams({ ...requestParams, direction: value });
-      }}
-    ></ButtonGroup>
-  );
   return (
     <div className={panelStyles.directionDisplayer}>
       <EndStopDisplayer abbr={startStop.abbr} name={startStop.name} />
@@ -90,18 +78,21 @@ export default React.memo(function ({
     });
   }, [stopsArray]);
 
+  const currentDirection = requestParams.direction;
+  const currentDirectionName =
+    directionDict[requestParams.route][currentDirection];
+
   return (
     <div className={panelStyles.module}>
       <ModuleTitle
-        title={"Select a Direction"}
+        title={`Predicting for:`}
+        titleHeavyPart={currentDirectionName}
         modalHeading={"Select a Direction"}
         modalContent={
           "Select a direction based on the termini and arrows shown in the panel."
         }
       />
       <DirectionDisplayer
-        directionOptions={directionOptions}
-        requestParams={requestParams}
         setRequestParams={setRequestParams}
         startStop={startStop}
         endStop={endStop}

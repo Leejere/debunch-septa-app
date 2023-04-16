@@ -35,6 +35,11 @@
   margin: 0 0 $panel-padding;
 }
 
+.moduleTitleHeavy {
+  font-weight: 700;
+  color: $danger;
+}
+
 .moduleTitle h5 {
   font-size: 0.9rem;
   margin: 0;
