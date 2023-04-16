@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 
-export function ButtonGroup({
+export const ButtonGroup = React.memo(function ({
   valueOptions,
   displayOptions,
   selected,
@@ -18,9 +18,12 @@ export function ButtonGroup({
     );
   });
   return <div className={panelStyles.buttonGroup}>{buttons}</div>;
-}
+});
 
-export function RouteSelector({ requestParams, setRequestParams }) {
+export const RouteSelector = React.memo(function ({
+  requestParams,
+  setRequestParams,
+}) {
   const routeOptions = ["21", "47", "33", "7"];
   return (
     <div className={panelStyles.module}>
@@ -36,4 +39,4 @@ export function RouteSelector({ requestParams, setRequestParams }) {
       ></ButtonGroup>
     </div>
   );
-}
+});
