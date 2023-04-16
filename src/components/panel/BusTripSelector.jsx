@@ -28,6 +28,7 @@ const TripList = React.memo(function ({
       : "light";
     const buttonTextColor = isInService ? "white" : "#bbb";
     const listGroupVariant = isSelectedTrip ? "secondary" : "light";
+
     return (
       <ListGroup.Item
         variant={listGroupVariant}
