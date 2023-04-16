@@ -78,7 +78,15 @@ export default function MapComponent({
           icon: makeBusIcon(isSelectedTrip),
         });
       },
-    }).bindPopup((layer) => makeBusPopupContent(layer.feature));
+    })
+      .addEventListener("click", (e) => {
+        setRequestParams({
+          ...requestParams,
+          trip: e.layer.feature.properties.trip,
+        });
+      })
+      .bindPopup((layer) => makeBusPopupContent(layer.feature));
+
     map.busLayer.addTo(map);
   };
 
