@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
 import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
 import { directionDictReversed } from "../..";
 
@@ -11,23 +12,50 @@ const TripList = React.memo(function ({
   setRequestParams,
 }) {
   const tripsEl = activeTrips.map((trip) => {
-    const variant = trip.trip === requestParams.trip ? "danger" : "secondary";
+    const isSelectedTrip = trip.trip === requestParams.trip;
+
+    const isInService = !!trip.next_stop_name; // Turn into boolean
+    const middleWord = isInService ? "near" : "Not in Service";
+    const onTripClick = isInService
+      ? (trip) => {
+          setRequestParams({ ...requestParams, trip: trip.trip });
+        }
+      : () => {};
+    const buttonVariant = isSelectedTrip
+      ? "primary"
+      : isInService
+      ? "secondary"
+      : "light";
+    const buttonTextColor = isInService ? "white" : "#bbb";
+    const listGroupVariant = isSelectedTrip ? "secondary" : "light";
     return (
-      <li key={trip.trip} className={panelStyles.tripListItem}>
+      <ListGroup.Item
+        variant={listGroupVariant}
+        key={trip.trip}
+        className={panelStyles.tripListItem}
+        onClick={() => {
+          onTripClick(trip);
+        }}
+      >
         <Button
-          variant={variant}
+          variant={buttonVariant}
           className={`py-0 ${panelStyles.tripButton}`}
-          onClick={() => {
-            setRequestParams({ ...requestParams, trip: trip.trip });
-          }}
+          style={{ color: buttonTextColor }}
         >
           {trip.trip}
         </Button>
-        <span>{trip.next_stop_name}</span>
-      </li>
+        <span className={panelStyles.tripListNear}>{middleWord}</span>
+        <span className={panelStyles.tripListStopName}>
+          {trip.next_stop_name}
+        </span>
+      </ListGroup.Item>
     );
   });
-  return <ul className={panelStyles.tripList}>{tripsEl}</ul>;
+  return (
+    <ListGroup variant="flush" className={panelStyles.tripList}>
+      {tripsEl}
+    </ListGroup>
+  );
 });
 
 export default React.memo(function ({

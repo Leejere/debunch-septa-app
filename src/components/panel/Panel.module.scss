@@ -179,21 +179,31 @@ $switch-width: 25px;
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  gap: $nav-gap;
   font-size: 0.8rem;
 }
 
 .tripListItem {
   display: flex;
   gap: $nav-gap;
+  padding: $nav-gap;
+  align-items: center;
+  cursor: pointer;
 }
 
 .tripButton {
   font-size: 0.8rem;
   width: 80px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  color: white;
+}
+
+.tripListNear {
+  font-style: italic;
+}
+
+.tripListStopName {
+  font-weight: 600;
 }
