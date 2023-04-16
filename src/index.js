@@ -17,10 +17,16 @@ function App() {
   const initRequestParams = {
     route: "21",
     direction: "1",
+    trip: null,
   };
   const predictionTemplate = { prediction: null };
   const [requestParams, setRequestParams] = useState(initRequestParams);
   const [realtimeData, setRealtimeData] = useState(null);
+
+  // Stops array for current route and direction
+  const [stopsArray, setStopsArray] = useState([]);
+
+  // Prediction data required from cloud after sending request params
   const [prediction, setPrediction] = useState(predictionTemplate);
 
   // Fetch data from transit view
@@ -40,6 +46,10 @@ function App() {
     return () => clearInterval(fetchRealtimeInterval);
   }, [requestParams]);
 
+  useEffect(() => {
+    console.log(stopsArray);
+  }, [stopsArray]);
+
   return (
     <>
       <Map
@@ -47,10 +57,12 @@ function App() {
         requestParams={requestParams} // Pass down request params
         setRequestParams={setRequestParams} // Pass down method to set request params
         realtimeData={realtimeData} // Pass down realtime location data from transit view
+        setStopsArray={setStopsArray} // Pass down method to set current stops array
       />
       <Panel
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        stopsArray={stopsArray}
       />
     </>
   );
