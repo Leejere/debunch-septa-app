@@ -11,7 +11,37 @@
   z-index: 1;
   overflow: hidden;
   background-color: white;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.module {
+  padding: $panel-padding-large;
   border-radius: $border-radius-big;
   box-shadow: $box-shadow;
-  padding: $panel-padding-large $panel-padding;
+}
+
+.moduleTitle {
+  color: $primary;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: $panel-padding 0 $panel-padding-large;
+}
+
+.moduleTitle h5 {
+  margin: 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: $nav-gap;
+}
+
+.infoIcon {
+  color: $primary;
+  padding: 1em;
+  padding: 0;
+  cursor: pointer;
 }

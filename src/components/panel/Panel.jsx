@@ -4,26 +4,8 @@ import panelStyles from "./Panel.module.scss";
 
 import { directionDict } from "../../index.js";
 
-function ButtonGroup({ valueOptions, displayOptions, selected, handleClick }) {
-  const buttons = valueOptions.map((value, index) => {
-    const variant = value === selected ? "primary" : "light";
-    return (
-      <Button
-        className="mx-2"
-        variant={variant}
-        key={value}
-        onClick={() => handleClick(value)}
-      >
-        {displayOptions[index]}
-      </Button>
-    );
-  });
-  return <div className="mb-3">{buttons}</div>;
-}
-
+import { ButtonGroup, RouteSelector } from "./RouteSelector";
 export default function Panel({ requestParams, setRequestParams }) {
-  const routeOptions = ["21", "47", "33", "7"];
-
   const directionOptions = {};
   for (const key in directionDict) {
     if (directionDict.hasOwnProperty(key)) {
@@ -33,14 +15,10 @@ export default function Panel({ requestParams, setRequestParams }) {
   }
 
   const routeSelectButtonGroup = (
-    <ButtonGroup
-      valueOptions={routeOptions}
-      displayOptions={routeOptions}
-      selected={requestParams.route}
-      handleClick={(value) => {
-        setRequestParams({ ...requestParams, route: value });
-      }}
-    ></ButtonGroup>
+    <RouteSelector
+      requestParams={requestParams}
+      setRequestParams={setRequestParams}
+    />
   );
   const directionSelectButtonGroup = (
     <ButtonGroup
