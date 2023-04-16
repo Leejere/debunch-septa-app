@@ -7,7 +7,9 @@ import Button from "react-bootstrap/Button";
 const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
   const startFrom = 11;
   const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
-    console.log(prediction[index + startFrom]);
+    const isBunched = prediction[index];
+    const status = isBunched ? "Bunch" : "Fine";
+    const buttonVariant = isBunched ? "danger" : "success";
     return (
       <ListGroup.Item key={index} className={panelStyles.tripListItem}>
         <Button
@@ -16,10 +18,10 @@ const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
         >{`Next ${index + startFrom}`}</Button>
         {stop.name}
         <Button
-          variant="secondary"
+          variant={buttonVariant}
           className={`p-0 ${panelStyles.tripButton} ${panelStyles.resultButton}`}
         >
-          Okay
+          {status}
         </Button>
       </ListGroup.Item>
     );
