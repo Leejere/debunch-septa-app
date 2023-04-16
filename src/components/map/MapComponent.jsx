@@ -80,6 +80,7 @@ export default function MapComponent({
       },
     })
       .addEventListener("click", (e) => {
+        // Updated request params with selected trip on click
         setRequestParams({
           ...requestParams,
           trip: e.layer.feature.properties.trip,
