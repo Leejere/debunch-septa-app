@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import panelStyles from "./Panel.module.scss";
 
-export default function GetPredictionButton({ onClick, requestParams }) {
+export default function GetPredictionButton({
+  fetchPrediction,
+  requestParams,
+}) {
   const [abled, setAbled] = useState(false);
 
   // Check if all request params are set
@@ -15,7 +18,7 @@ export default function GetPredictionButton({ onClick, requestParams }) {
   return (
     <Button
       disabled={!abled}
-      onClick={onClick}
+      onClick={fetchPrediction}
       className={panelStyles.getPredictionButton}
     >
       Get Prediction

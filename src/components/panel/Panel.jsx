@@ -15,8 +15,10 @@ export default function Panel({
   realtimeData,
   stopsArray,
 }) {
+  const [showResults, setShowResults] = React.useState(false);
   const fetchPrediction = () => {
     console.log(requestParams);
+    setShowResults(true);
   };
 
   return (
@@ -37,10 +39,14 @@ export default function Panel({
         realtimeData={realtimeData}
       />
       <GetPredictionButton
-        onClick={fetchPrediction}
+        fetchPrediction={fetchPrediction}
         requestParams={requestParams}
       />
-      <Prediction stopsArray={stopsArray} prediction={prediction} />
+      <Prediction
+        stopsArray={stopsArray}
+        prediction={prediction}
+        showResults={showResults}
+      />
     </section>
   );
 }

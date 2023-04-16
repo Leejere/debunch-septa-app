@@ -27,6 +27,11 @@
   gap: $panel-gap;
 }
 
+.resultModule {
+  flex-grow: 1;
+  overflow: auto;
+}
+
 .moduleTitle {
   color: $primary;
   display: flex;
