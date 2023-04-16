@@ -7,7 +7,13 @@ import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
 
-export default function Panel({ requestParams, setRequestParams, stopsArray }) {
+export default function Panel({
+  prediction,
+  requestParams,
+  setRequestParams,
+  realtimeData,
+  stopsArray,
+}) {
   const fetchPrediction = () => {
     console.log(requestParams);
   };
@@ -26,6 +32,7 @@ export default function Panel({ requestParams, setRequestParams, stopsArray }) {
       <BusTripSelector
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        realtimeData={realtimeData}
       />
       <GetPredictionButton onClick={fetchPrediction} />
     </section>

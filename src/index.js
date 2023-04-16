@@ -56,8 +56,10 @@ function App() {
         setStopsArray={setStopsArray} // Pass down method to set current stops array
       />
       <Panel
+        prediction={prediction}
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        realtimeData={realtimeData}
         stopsArray={stopsArray}
       />
     </>

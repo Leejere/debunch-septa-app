@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 
-export default React.memo(function ({ requestParams, setRequestParams }) {
+export default React.memo(function ({
+  requestParams,
+  setRequestParams,
+  realtimeData,
+}) {
+  console.log(realtimeData.bus);
   return (
     <div className={panelStyles.module}>
       <ModuleTitle
