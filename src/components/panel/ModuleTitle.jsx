@@ -3,7 +3,7 @@ import panelStyles from "./Panel.module.scss";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-export default function ModuleTitle({ title, info }) {
+export default React.memo(function ({ title, info }) {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -29,4 +29,4 @@ export default function ModuleTitle({ title, info }) {
       </Modal>
     </div>
   );
-}
+});
