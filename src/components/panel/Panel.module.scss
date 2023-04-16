@@ -143,3 +143,21 @@ $switch-width: 25px;
   cursor: pointer;
   z-index: 4;
 }
+
+.dateTimeDisplayer {
+  display: flex;
+  gap: $main-gap;
+  justify-content: space-around;
+}
+
+.timeDisplayer {
+  color: $primary;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.dateDisplayer {
+  color: $primary;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
