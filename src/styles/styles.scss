@@ -23,10 +23,11 @@ body {
   width: 100vw;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 #app {
-  height: 100%;
+  height: calc(100vh - #{$nav-height});
   width: 100vw;
   padding: $main-padding;
   display: flex;
