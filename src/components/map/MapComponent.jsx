@@ -115,7 +115,7 @@ export default function MapComponent({
     return () => {
       if (map.busLayer) map.busLayer.remove();
     };
-  }, [realtimeData]);
+  }, [realtimeData, requestParams]);
 
   const mapAttribution =
     '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
