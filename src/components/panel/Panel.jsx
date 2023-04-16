@@ -6,6 +6,7 @@ import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
+import Prediction from "./Prediction";
 
 export default function Panel({
   prediction,
@@ -39,6 +40,7 @@ export default function Panel({
         onClick={fetchPrediction}
         requestParams={requestParams}
       />
+      <Prediction stopsArray={stopsArray} prediction={prediction} />
     </section>
   );
 }
