@@ -44,7 +44,7 @@ function App() {
     }, 30000);
     fetchRealtime(requestParams.route);
     return () => clearInterval(fetchRealtimeInterval);
-  }, [requestParams]);
+  }, [requestParams.route]);
 
   return (
     <>
