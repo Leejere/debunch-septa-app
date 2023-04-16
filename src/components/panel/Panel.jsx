@@ -4,7 +4,7 @@ import panelStyles from "./Panel.module.scss";
 import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
 
-export default function Panel({ requestParams, setRequestParams }) {
+export default function Panel({ requestParams, setRequestParams, stopsArray }) {
   return (
     <section className={panelStyles.container}>
       <RouteSelector
@@ -14,6 +14,7 @@ export default function Panel({ requestParams, setRequestParams }) {
       <DirectionSelector
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        stopsArray={stopsArray}
       />
     </section>
   );

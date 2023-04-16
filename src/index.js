@@ -46,10 +46,6 @@ function App() {
     return () => clearInterval(fetchRealtimeInterval);
   }, [requestParams]);
 
-  useEffect(() => {
-    console.log(stopsArray);
-  }, [stopsArray]);
-
   return (
     <>
       <Map
