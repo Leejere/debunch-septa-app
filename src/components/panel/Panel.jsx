@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import panelStyles from "./Panel.module.scss";
 
 import TimeDisplayer from "./TimeDisplayer";
@@ -10,20 +10,36 @@ import Prediction from "./Prediction";
 
 export default function Panel({
   prediction,
+  setPrediction,
   requestParams,
   setRequestParams,
   realtimeData,
   stopsArray,
 }) {
   // Whether to show prediction results
-  const [showResults, setShowResults] = React.useState(false);
+  const [showResults, setShowResults] = useState(false);
   // The nearest stop of the currently selected trip
-  const [currentStop, setCurrentStop] = React.useState(null);
+  const [currentStop, setCurrentStop] = useState(null);
 
-  const fetchPrediction = () => {
+  const fetchPrediction = async () => {
     console.log(requestParams);
-    setShowResults(true);
+    setShowResults(false);
+
+    const url =
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      setPrediction(result.prediction);
+      setShowResults(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    console.log(prediction);
+  }, [prediction]);
 
   return (
     <section className={panelStyles.container}>

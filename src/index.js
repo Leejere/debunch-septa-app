@@ -57,6 +57,7 @@ function App() {
       />
       <Panel
         prediction={prediction}
+        setPrediction={setPrediction}
         requestParams={requestParams}
         setRequestParams={setRequestParams}
         realtimeData={realtimeData}

@@ -4,9 +4,10 @@ import ModuleTitle from "./ModuleTitle";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
-const PredictionList = React.memo(function ({ stopsSequence }) {
+const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
   const startFrom = 11;
   const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
+    console.log(prediction[index + startFrom]);
     return (
       <ListGroup.Item key={index} className={panelStyles.tripListItem}>
         <Button
@@ -41,7 +42,6 @@ export default React.memo(function ({
     stopsArray.forEach((stop, index) => {
       if (Number(stop.id) === Number(currentStop)) {
         const sliced = stopsArray.slice(index, index + 20);
-        console.log(sliced);
         setStopsSequence(stopsArray.slice(index, index + 20));
         return;
       }
@@ -59,7 +59,7 @@ export default React.memo(function ({
         modalHeading={"Prediction Results"}
         modalContent={modalContent}
       />
-      <PredictionList stopsSequence={stopsSequence} />
+      <PredictionList stopsSequence={stopsSequence} prediction={prediction} />
     </div>
   );
 });
