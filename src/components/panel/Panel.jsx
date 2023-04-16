@@ -4,6 +4,7 @@ import panelStyles from "./Panel.module.scss";
 import TimeDisplayer from "./TimeDisplayer";
 import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
+import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
 
 export default function Panel({ requestParams, setRequestParams, stopsArray }) {
@@ -21,6 +22,10 @@ export default function Panel({ requestParams, setRequestParams, stopsArray }) {
         requestParams={requestParams}
         setRequestParams={setRequestParams}
         stopsArray={stopsArray}
+      />
+      <BusTripSelector
+        requestParams={requestParams}
+        setRequestParams={setRequestParams}
       />
       <GetPredictionButton onClick={fetchPrediction} />
     </section>
