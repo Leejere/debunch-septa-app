@@ -78,7 +78,6 @@ export default React.memo(function ({
     trips.forEach((trip) => {
       if (trip.next_stop_name) {
         setRequestParams({ ...requestParams, trip: trip.trip });
-        console.log("hello");
         return;
       }
     });
