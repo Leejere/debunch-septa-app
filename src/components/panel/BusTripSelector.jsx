@@ -89,6 +89,7 @@ export default React.memo(function ({
     <div className={panelStyles.module}>
       <ModuleTitle
         title={"Predicting for:"}
+        titleHeavyPart={`Trip ${requestParams.trip}`}
         modalHeading={"Trip Selection"}
         modalContent={modalContent}
       />
