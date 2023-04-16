@@ -7,6 +7,9 @@ import DirectionSelector from "./DirectionSelector";
 import GetPredictionButton from "./GetPredictionButton";
 
 export default function Panel({ requestParams, setRequestParams, stopsArray }) {
+  const fetchPrediction = () => {
+    console.log(requestParams);
+  };
   return (
     <section className={panelStyles.container}>
       <TimeDisplayer />
@@ -19,7 +22,7 @@ export default function Panel({ requestParams, setRequestParams, stopsArray }) {
         setRequestParams={setRequestParams}
         stopsArray={stopsArray}
       />
-      <GetPredictionButton />
+      <GetPredictionButton onClick={fetchPrediction} />
     </section>
   );
 }

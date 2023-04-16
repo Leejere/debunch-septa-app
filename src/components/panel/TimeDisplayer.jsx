@@ -23,6 +23,7 @@ export default React.memo(function () {
 
   const monthName = time.toLocaleString("default", { month: "long" });
   const day = time.getDate();
+  const year = time.getFullYear();
 
   return (
     <div className={panelStyles.module}>
@@ -40,7 +41,7 @@ export default React.memo(function () {
           {suffix}
         </div>
         <div className={panelStyles.dateDisplayer}>
-          {monthName}&nbsp;{day}
+          {monthName}&nbsp;{day},&nbsp;{year}
         </div>
       </div>
     </div>
