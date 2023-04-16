@@ -41,7 +41,7 @@ export default function MapComponent({
     map.routeLayer.addTo(map);
   };
 
-  // Function to manage stops data on the map
+  // Function to manage stops data to the stops layer on update (after clearing the old one)
   const addStopsData = () => {
     map.stopsLayer = L.geoJSON(stopsData, {
       pointToLayer: (point, latLng) => L.circleMarker(latLng),
@@ -59,17 +59,23 @@ export default function MapComponent({
     });
     map.stopsLayer.addTo(map);
   };
-
+  // Function to add realtime bus data to the map
   const addBusData = () => {
-    const bus = makeBusFeatureCollection(realtimeData.bus);
-    map.busLayer = L.geoJSON(bus, {
+    const buses = makeBusFeatureCollection(realtimeData.bus);
+    // Filter to only selected direction
+    const filteredBuses = buses.features.filter((bus) => {
+      const isSelectedDirection =
+        directionDictReversed[requestParams.route][bus.properties.direction] ===
+        requestParams.direction;
+      return isSelectedDirection;
+    });
+    map.busLayer = L.geoJSON(filteredBuses, {
       pointToLayer: (feature, latlng) => {
-        const shouldHighlight =
-          directionDictReversed[requestParams.route][
-            feature.properties.direction
-          ] === requestParams.direction;
+        // Highlight the currently selected route, direction, and trip
+        const thisBus = feature.properties;
+        const isSelectedTrip = thisBus.trip === requestParams.trip;
         return L.marker(latlng, {
-          icon: makeBusIcon(shouldHighlight),
+          icon: makeBusIcon(isSelectedTrip),
         });
       },
     }).bindPopup((layer) => makeBusPopupContent(layer.feature));
