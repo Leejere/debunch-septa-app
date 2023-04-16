@@ -10,6 +10,7 @@ const TripList = React.memo(function ({
   activeTrips,
   requestParams,
   setRequestParams,
+  setCurrentStop,
 }) {
   const tripsEl = activeTrips.map((trip) => {
     const isSelectedTrip = trip.trip === requestParams.trip;
@@ -19,6 +20,7 @@ const TripList = React.memo(function ({
     const onTripClick = isInService
       ? (trip) => {
           setRequestParams({ ...requestParams, trip: trip.trip });
+          setCurrentStop(trip.next_stop_id);
         }
       : () => {};
     const buttonVariant = isSelectedTrip
@@ -62,6 +64,7 @@ const TripList = React.memo(function ({
 export default React.memo(function ({
   requestParams,
   setRequestParams,
+  setCurrentStop,
   realtimeData,
 }) {
   const [activeTrips, setActiveTrips] = useState([]);
@@ -78,6 +81,7 @@ export default React.memo(function ({
     trips.forEach((trip) => {
       if (trip.next_stop_name) {
         setRequestParams({ ...requestParams, trip: trip.trip });
+        setCurrentStop(trip.next_stop_id);
         return;
       }
     });
@@ -97,6 +101,7 @@ export default React.memo(function ({
         activeTrips={activeTrips}
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        setCurrentStop={setCurrentStop}
       />
     </div>
   );

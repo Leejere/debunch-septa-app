@@ -15,7 +15,11 @@ export default function Panel({
   realtimeData,
   stopsArray,
 }) {
+  // Whether to show prediction results
   const [showResults, setShowResults] = React.useState(false);
+  // The nearest stop of the currently selected trip
+  const [currentStop, setCurrentStop] = React.useState(null);
+
   const fetchPrediction = () => {
     console.log(requestParams);
     setShowResults(true);
@@ -36,6 +40,7 @@ export default function Panel({
       <BusTripSelector
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        setCurrentStop={setCurrentStop}
         realtimeData={realtimeData}
       />
       <GetPredictionButton
@@ -44,6 +49,7 @@ export default function Panel({
       />
       <Prediction
         stopsArray={stopsArray}
+        currentStop={currentStop}
         prediction={prediction}
         showResults={showResults}
       />
