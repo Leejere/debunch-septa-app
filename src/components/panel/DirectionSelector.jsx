@@ -3,19 +3,40 @@ import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 import { directionDict } from "../../index.js";
 import { ButtonGroup } from "./RouteSelector";
-import { FiRepeat } from "react-icons/fi";
+import Button from "react-bootstrap/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRepeat } from "@fortawesome/free-solid-svg-icons";
 
-const ArrowWithSwitch = () => {
+const ArrowWithSwitch = ({ setRequestParams }) => {
+  const handleClick = () => {
+    setRequestParams((prev) => {
+      const newDirection = prev.direction === "0" ? "1" : "0";
+      return { ...prev, direction: newDirection };
+    });
+  };
   return (
     <div className={panelStyles.arrowContainer}>
-      <div className={panelStyles.switchIconContainer}>
-        <FiRepeat className={panelStyles.switchIcon} />
-      </div>
+      <Button
+        variant="danger"
+        className={panelStyles.switchIconContainer}
+        onClick={handleClick}
+      >
+        <FontAwesomeIcon icon={faRepeat} style={{ color: "#ffffff" }} />
+      </Button>
       <div className={panelStyles.arrowBody} />
       <div className={panelStyles.arrowHead} />
     </div>
   );
 };
+
+const EndStopDisplayer = React.memo(function ({ abbr, name }) {
+  return (
+    <div className={panelStyles.directionDisplayerStop}>
+      <div className={panelStyles.directionDisplayerStopAbbr}>{abbr}</div>
+      <div className={panelStyles.directionDisplayerStopName}>{name}</div>
+    </div>
+  );
+});
 
 const DirectionDisplayer = React.memo(function ({
   directionOptions,
@@ -24,22 +45,22 @@ const DirectionDisplayer = React.memo(function ({
   startStop,
   endStop,
 }) {
+  const buttons = (
+    <ButtonGroup
+      valueOptions={["0", "1"]}
+      displayOptions={directionOptions[requestParams.route]}
+      selected={requestParams.direction}
+      handleClick={(value) => {
+        setRequestParams({ ...requestParams, direction: value });
+      }}
+    ></ButtonGroup>
+  );
   return (
-    <>
-      <ButtonGroup
-        valueOptions={["0", "1"]}
-        displayOptions={directionOptions[requestParams.route]}
-        selected={requestParams.direction}
-        handleClick={(value) => {
-          setRequestParams({ ...requestParams, direction: value });
-        }}
-      ></ButtonGroup>
-      <div className={panelStyles.directionDisplayer}>
-        <div className={panelStyles.directionDisplayerStop}>d</div>
-        <ArrowWithSwitch />
-        <div className={panelStyles.directionDisplayerStop}>d</div>
-      </div>
-    </>
+    <div className={panelStyles.directionDisplayer}>
+      <EndStopDisplayer abbr={startStop.abbr} name={startStop.name} />
+      <ArrowWithSwitch setRequestParams={setRequestParams} />
+      <EndStopDisplayer abbr={endStop.abbr} name={endStop.name} />
+    </div>
   );
 });
 
@@ -58,14 +79,14 @@ export default React.memo(function ({
   }
 
   // Get starting and ending stops
-  const [startStop, setStartStop] = useState({ name: null, id: null });
-  const [endStop, setEndStop] = useState({ name: null, id: null });
+  const [startStop, setStartStop] = useState({ name: null, abbr: null });
+  const [endStop, setEndStop] = useState({ name: null, abbr: null });
   useEffect(() => {
     if (!stopsArray[0]) return;
-    setStartStop({ name: stopsArray[0].name, id: stopsArray[0].id });
+    setStartStop({ name: stopsArray[0].name, abbr: stopsArray[0].abbr });
     setEndStop({
       name: stopsArray[stopsArray.length - 1].name,
-      id: stopsArray[stopsArray.length - 1].id,
+      abbr: stopsArray[stopsArray.length - 1].abbr,
     });
   }, [stopsArray]);
 

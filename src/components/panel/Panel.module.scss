@@ -21,6 +21,9 @@
   padding: $panel-padding-large;
   border-radius: $border-radius-big;
   box-shadow: $box-shadow;
+  display: flex;
+  flex-direction: column;
+  gap: $panel-gap;
 }
 
 .moduleTitle {
@@ -28,7 +31,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: $panel-padding 0 $panel-padding-large;
+  margin: $panel-padding 0;
 }
 
 .moduleTitle h5 {
@@ -38,6 +41,7 @@
 .buttonGroup {
   display: flex;
   gap: $nav-gap;
+  justify-content: center;
 }
 
 .infoIcon {
@@ -50,6 +54,38 @@
 .directionDisplayer {
   display: flex;
   justify-content: space-between;
+}
+
+.directionDisplayerStop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 38%;
+  gap: $nav-gap;
+}
+
+$stop-tag-height: 35px;
+
+.directionDisplayerStopAbbr {
+  width: 100%;
+  height: $stop-tag-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1.5px solid $primary;
+  border-radius: 8px;
+  color: $primary;
+  font-weight: 800;
+}
+
+.directionDisplayerStopName {
+  width: 100%;
+  font-size: 0.75rem;
+  color: #aaa;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 $arrow-height: 24px;
@@ -65,7 +101,7 @@ $switch-width: 25px;
 
 .arrowBody {
   position: absolute;
-  top: calc(50% - #{$arrow-width / 2});
+  top: calc(#{$stop-tag-height} / 2 - #{$arrow-width / 2});
   left: 0;
   right: 0;
   height: $arrow-width;
@@ -75,7 +111,7 @@ $switch-width: 25px;
 .arrowHead {
   position: absolute;
   right: 0;
-  top: calc(50% - #{$arrow-head-height / 2});
+  top: calc(#{$stop-tag-height} / 2 - #{$arrow-head-height / 2});
   width: $arrow-head-height;
   height: $arrow-head-height;
   background: $secondary;
@@ -89,19 +125,19 @@ $switch-width: 25px;
   width: $switch-width;
   height: $switch-width;
   position: absolute;
-  top: calc(50% - #{$switch-width / 2});
+  top: calc(#{$stop-tag-height} / 2 - #{$switch-width / 2});
   left: calc(50% - #{$switch-width / 2});
   border-radius: 50%;
-  background-color: $primary;
-  z-index: 3;
+  z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .switchIcon {
-  width: 75%;
-  height: 75%;
+  width: 20px;
+  height: 20px;
   color: white;
   cursor: pointer;
+  z-index: 4;
 }
