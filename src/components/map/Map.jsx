@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import mapStyles from "./Map.module.scss";
+import capitalizeFirstLetter from "../../utils/capitalizeFirstLetter";
+import { directionDictReversed } from "../../index.js";
 
 // Imports from React Leaflet
 import { MapContainer } from "react-leaflet/MapContainer";
@@ -7,11 +9,38 @@ import { MapContainer } from "react-leaflet/MapContainer";
 // What goes inside the MapContainer
 import MapComponent from "./MapComponent";
 
+const extractStopsArray = (stopsData, requestParams) => {
+  const stopsArray = stopsData.features.map((feature) => {
+    return {
+      direction: feature.properties.DirectionN,
+      route: feature.properties.LineAbbr,
+      sequence: feature.properties.Sequence,
+      name: feature.properties.StopName,
+      abbr: feature.properties.StopAbbr,
+      id: feature.properties.StopId,
+    };
+  });
+  const filteredStopsArray = stopsArray.filter((item) => {
+    const isCurrentRoute = item.route === requestParams.route;
+    const isCurrentDirection =
+      directionDictReversed[item.route][
+        capitalizeFirstLetter(item.direction)
+      ] === requestParams.direction;
+    return isCurrentRoute && isCurrentDirection;
+  });
+  const sortedStopsArray = filteredStopsArray.sort((a, b) => {
+    return a.sequence - b.sequence;
+  });
+
+  return sortedStopsArray;
+};
+
 export default function Map({
   requestParams,
   setRequestParams,
   realtimeData, // Real-time transit view data, fetched at the higher level
   prediction,
+  setStopsArray,
 }) {
   // Initialize route shapes and stops points (as null)
   const [routeData, setRouteData] = useState(null);
@@ -46,6 +75,13 @@ export default function Map({
     fetchData(stopsUrl, setStopsData);
   }, []);
   // Note: Real-time transit view data is fetched at the higher level
+
+  // Update the stops array at the higher level whenever request params change
+  useEffect(() => {
+    if (!stopsData) return;
+    const sortedStopsArray = extractStopsArray(stopsData, requestParams);
+    setStopsArray(sortedStopsArray);
+  }, [requestParams, stopsData]);
 
   const MapEl = (
     <MapContainer
