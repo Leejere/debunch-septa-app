@@ -20,14 +20,17 @@ export const ButtonGroup = React.memo(function ({
   return <div className={panelStyles.buttonGroup}>{buttons}</div>;
 });
 
-export const RouteSelector = React.memo(function ({
-  requestParams,
-  setRequestParams,
-}) {
+export default React.memo(function ({ requestParams, setRequestParams }) {
   const routeOptions = ["21", "47", "33", "7"];
   return (
     <div className={panelStyles.module}>
-      <ModuleTitle title={"Select a Route"} />
+      <ModuleTitle
+        title={"Select a Route"}
+        modalHeading={"Route Selection"}
+        modalContent={
+          "As a proof-of-concept, this app only supports a few routes that are mostly linked to Center City and University City."
+        }
+      />
       {/* Route selector buttons */}
       <ButtonGroup
         valueOptions={routeOptions}
