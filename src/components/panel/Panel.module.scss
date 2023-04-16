@@ -18,7 +18,7 @@
 }
 
 .module {
-  padding: $panel-padding-large;
+  padding: $panel-padding-large $panel-padding;
   border-radius: $border-radius-big;
   box-shadow: $box-shadow;
   display: flex;
@@ -159,5 +159,10 @@ $switch-width: 25px;
 .dateDisplayer {
   color: $primary;
   font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.getPredictionButton {
+  font-size: 1.2rem;
   font-weight: 800;
 }
