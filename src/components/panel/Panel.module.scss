@@ -31,10 +31,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: $panel-padding 0;
+  margin: 0 0 $panel-padding;
 }
 
 .moduleTitle h5 {
+  font-size: 0.9rem;
   margin: 0;
 }
 
@@ -49,6 +50,7 @@
   padding: 1em;
   padding: 0;
   cursor: pointer;
+  font-size: 1.1rem;
 }
 
 .directionDisplayer {
