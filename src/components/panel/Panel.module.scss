@@ -213,3 +213,24 @@ $switch-width: 25px;
 .tripListStopName {
   font-weight: 600;
 }
+
+.nextButton {
+  width: 3.5rem;
+  height: 20px;
+  color: white;
+}
+
+.nextButton:hover {
+  color: white;
+}
+
+.resultButton {
+  margin-left: auto;
+  width: 3.5rem;
+  height: 20px;
+  color: white;
+}
+
+.resultButton:hover {
+  color: white;
+}

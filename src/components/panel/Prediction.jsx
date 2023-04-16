@@ -5,10 +5,29 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
 const PredictionList = React.memo(function ({ stopsSequence }) {
-  const predictionListEl = stopsSequence.map((stop, index) => {
-    return <ListGroup.Item key={index}>{stop.name}</ListGroup.Item>;
+  const startFrom = 11;
+  const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
+    return (
+      <ListGroup.Item key={index} className={panelStyles.tripListItem}>
+        <Button
+          variant="secondary"
+          className={`p-0 ${panelStyles.tripButton} ${panelStyles.nextButton}`}
+        >{`Next ${index + startFrom}`}</Button>
+        {stop.name}
+        <Button
+          variant="secondary"
+          className={`p-0 ${panelStyles.tripButton} ${panelStyles.resultButton}`}
+        >
+          Okay
+        </Button>
+      </ListGroup.Item>
+    );
   });
-  return <ListGroup>{predictionListEl}</ListGroup>;
+  return (
+    <ListGroup variant="flush" className={panelStyles.tripList}>
+      {predictionListEl}
+    </ListGroup>
+  );
 });
 
 export default React.memo(function ({
