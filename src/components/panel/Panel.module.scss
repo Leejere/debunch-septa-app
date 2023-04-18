@@ -28,6 +28,11 @@
   gap: $panel-gap;
 }
 
+.busSelectorModule {
+  max-height: 180px;
+  overflow: auto;
+}
+
 .resultModule {
   flex-grow: 1;
   overflow: auto;

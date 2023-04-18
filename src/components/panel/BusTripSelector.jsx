@@ -90,7 +90,7 @@ export default React.memo(function ({
   const modalContent =
     "Select a trip to predict. You can do so by clicking on this panel or on the map";
   return (
-    <div className={panelStyles.module}>
+    <div className={`${panelStyles.module} ${panelStyles.busSelectorModule}`}>
       <ModuleTitle
         title={"Predicting for:"}
         titleHeavyPart={`Trip ${requestParams.trip}`}
