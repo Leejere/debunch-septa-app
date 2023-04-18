@@ -1,0 +1,3 @@
+*.jsx linguist-language=JavaScript
+*.js linguist-language=JavaScript
+*.scss linguist-language=SASS
