@@ -21,7 +21,7 @@ export const ButtonGroup = React.memo(function ({
 });
 
 export default React.memo(function ({ requestParams, setRequestParams }) {
-  const routeOptions = ["21", "47", "33", "7"];
+  const routeOptions = ["21", "47", "33"];
   return (
     <div className={panelStyles.module}>
       <ModuleTitle
