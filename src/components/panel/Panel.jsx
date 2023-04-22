@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import panelStyles from "./Panel.module.scss";
 
+import DemoModeSetter from "./DemoModeSetter";
 import TimeDisplayer from "./TimeDisplayer";
 import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
@@ -16,6 +17,9 @@ export default function Panel({
   realtimeData,
   stopsArray,
 }) {
+  // Is demo mode on?
+  const [isDemo, setIsDemo] = useState(false);
+
   // Whether to show prediction results
   const [showResults, setShowResults] = useState(false);
   // The nearest stop of the currently selected trip
@@ -43,6 +47,7 @@ export default function Panel({
 
   return (
     <section className={panelStyles.container}>
+      <DemoModeSetter />
       <TimeDisplayer />
       <RouteSelector
         requestParams={requestParams}
