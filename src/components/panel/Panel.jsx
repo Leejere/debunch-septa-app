@@ -18,7 +18,7 @@ export default function Panel({
   stopsArray,
 }) {
   // Is demo mode on?
-  const [isDemo, setIsDemo] = useState(false);
+  const [isDemo, setIsDemo] = useState(true);
 
   // Whether to show prediction results
   const [showResults, setShowResults] = useState(false);

@@ -241,3 +241,12 @@ $switch-width: 25px;
 .resultButton:hover {
   color: white;
 }
+
+.demoModeSetter * {
+  font-weight: 700;
+  color: $primary;
+}
+
+.demoModeSetter *:hover {
+  color: $primary;
+}
