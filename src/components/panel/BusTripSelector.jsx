@@ -78,13 +78,14 @@ export default React.memo(function ({
       );
     });
     setActiveTrips(trips);
-    trips.forEach((trip) => {
+    for (let i = 0; i < trips.length; i++) {
+      const trip = trips[i];
       if (trip.next_stop_name) {
         setRequestParams({ ...requestParams, trip: trip.trip });
         setCurrentStop(trip.next_stop_id);
         return;
       }
-    });
+    }
   }, [realtimeData, requestParams.direction]);
 
   const modalContent =
