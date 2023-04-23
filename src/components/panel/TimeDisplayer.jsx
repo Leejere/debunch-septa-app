@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-import ModuleTitle from "./ModuleTitle";
 import panelStyles from "./Panel.module.scss";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 export default React.memo(function () {
   const [time, setTime] = useState(new Date());
+
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,24 +30,39 @@ export default React.memo(function () {
   const day = time.getDate();
   const year = time.getFullYear();
 
+  const dateTimeDisplayer = (
+    <div className={panelStyles.dateTimeDisplayer}>
+      <div className={panelStyles.timeDisplayer}>
+        {hourDisplay}:{minutes}&nbsp;
+        {suffix}
+      </div>
+      <div className={panelStyles.dateDisplayer}>
+        {monthName}&nbsp;{day},&nbsp;{year}
+      </div>
+    </div>
+  );
+
   return (
     <div className={panelStyles.module}>
-      <ModuleTitle
-        className={panelStyles.moduleTitle}
-        title={"Prediction as of"}
-        modalHeading={"Prediction Time"}
-        modalContent={
-          "As a proof-of-concept, real-time prediction is disabled for this demo app."
-        }
-      ></ModuleTitle>
-      <div className={panelStyles.dateTimeDisplayer}>
-        <div className={panelStyles.timeDisplayer}>
-          {hourDisplay}:{minutes}&nbsp;
-          {suffix}
-        </div>
-        <div className={panelStyles.dateDisplayer}>
-          {monthName}&nbsp;{day},&nbsp;{year}
-        </div>
+      <div className={panelStyles.dateTimeWithIcon}>
+        {dateTimeDisplayer}
+        <span
+          className={`material-symbols-outlined ${panelStyles.infoIcon}`}
+          onClick={handleShow}
+        >
+          info
+        </span>
+        <Modal show={showModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>dd</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>dd</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
