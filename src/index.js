@@ -34,9 +34,11 @@ function App() {
   // Fetch data from transit view
   useEffect(() => {
     const fetchRealtime = async (route) => {
+      const demoUrlRoot =
+        "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-transit-view/";
       const urlRoot =
         "https://us-east1-septa-transitview-proxy.cloudfunctions.net/septaProxy?route=";
-      const url = `${urlRoot}${route}`;
+      const url = isDemo ? `${demoUrlRoot}${route}.json` : `${urlRoot}${route}`;
       const response = await fetch(url);
       const data = await response.json();
       setRealtimeData(data);
@@ -46,7 +48,7 @@ function App() {
     }, 30000);
     fetchRealtime(requestParams.route);
     return () => clearInterval(fetchRealtimeInterval);
-  }, [requestParams.route]);
+  }, [requestParams.route, isDemo]);
 
   return (
     <>
