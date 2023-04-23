@@ -4,24 +4,37 @@ import ModuleTitle from "./ModuleTitle";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
-const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
+const PredictionList = React.memo(function ({ prediction }) {
+  console.log("hello");
+  console.log("prediction", prediction);
+
   const startFrom = 11;
-  const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
-    const isBunched = prediction[index];
-    const status = isBunched ? "Bunch" : "Fine";
-    const buttonVariant = isBunched ? "danger" : "success";
+  const predictionListEl = prediction.map((stop, index) => {
+    const isBunched = stop.prediction;
+    let statusText;
+    let buttonVariant;
+    if (isBunched === null) {
+      statusText = "Unavailable";
+      buttonVariant = "light";
+    } else if (isBunched === true) {
+      statusText = "Bunch";
+      buttonVariant = "danger";
+    } else {
+      statusText = "Fine";
+      buttonVariant = "success";
+    }
     return (
       <ListGroup.Item key={index} className={panelStyles.tripListItem}>
         <Button
           variant="secondary"
           className={`p-0 ${panelStyles.tripButton} ${panelStyles.nextButton}`}
         >{`Next ${index + startFrom}`}</Button>
-        {stop.name}
+        {stop.stop_name}
         <Button
           variant={buttonVariant}
           className={`p-0 ${panelStyles.tripButton} ${panelStyles.resultButton}`}
         >
-          {status}
+          {statusText}
         </Button>
       </ListGroup.Item>
     );
@@ -36,7 +49,12 @@ const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
 export default React.memo(function ({ prediction, showResults }) {
   const modalContent =
     "Predict whether a trip is going to bunch in the near future";
-  console.log(prediction);
+
+  const predictionList = prediction[0] ? (
+    <PredictionList prediction={prediction} />
+  ) : (
+    <></>
+  );
   return (
     <div
       className={`${panelStyles.module} ${panelStyles.resultModule}`}
@@ -47,6 +65,7 @@ export default React.memo(function ({ prediction, showResults }) {
         modalHeading={"Prediction Results"}
         modalContent={modalContent}
       />
+      {predictionList}
     </div>
   );
 });
