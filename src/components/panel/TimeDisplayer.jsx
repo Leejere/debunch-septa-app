@@ -27,14 +27,14 @@ export default React.memo(function () {
 
   return (
     <div className={panelStyles.module}>
-      {/* <ModuleTitle
+      <ModuleTitle
         className={panelStyles.moduleTitle}
         title={"Prediction as of"}
         modalHeading={"Prediction Time"}
         modalContent={
           "As a proof-of-concept, real-time prediction is disabled for this demo app."
         }
-      ></ModuleTitle> */}
+      ></ModuleTitle>
       <div className={panelStyles.dateTimeDisplayer}>
         <div className={panelStyles.timeDisplayer}>
           {hourDisplay}:{minutes}&nbsp;

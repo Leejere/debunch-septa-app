@@ -166,18 +166,18 @@ $switch-width: 25px;
 .dateTimeDisplayer {
   display: flex;
   gap: $main-gap;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .timeDisplayer {
   color: $primary;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 800;
 }
 
 .dateDisplayer {
   color: $primary;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 800;
 }
 
