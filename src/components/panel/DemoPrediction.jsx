@@ -4,24 +4,39 @@ import ModuleTitle from "./ModuleTitle";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
-export default React.memo(function ({
-  stopsArray,
-  currentStop,
-  prediction,
-  showResults,
-}) {
-  const [stopsSequence, setStopsSequence] = useState([]);
-  useEffect(() => {
-    stopsArray.forEach((stop, index) => {
-      if (Number(stop.id) === Number(currentStop)) {
-        const sliced = stopsArray.slice(index, index + 20);
-        setStopsSequence(stopsArray.slice(index, index + 20));
-        return;
-      }
-    });
-  }, [currentStop]);
+const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
+  const startFrom = 11;
+  const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
+    const isBunched = prediction[index];
+    const status = isBunched ? "Bunch" : "Fine";
+    const buttonVariant = isBunched ? "danger" : "success";
+    return (
+      <ListGroup.Item key={index} className={panelStyles.tripListItem}>
+        <Button
+          variant="secondary"
+          className={`p-0 ${panelStyles.tripButton} ${panelStyles.nextButton}`}
+        >{`Next ${index + startFrom}`}</Button>
+        {stop.name}
+        <Button
+          variant={buttonVariant}
+          className={`p-0 ${panelStyles.tripButton} ${panelStyles.resultButton}`}
+        >
+          {status}
+        </Button>
+      </ListGroup.Item>
+    );
+  });
+  return (
+    <ListGroup variant="flush" className={panelStyles.tripList}>
+      {predictionListEl}
+    </ListGroup>
+  );
+});
+
+export default React.memo(function ({ prediction, showResults }) {
   const modalContent =
     "Predict whether a trip is going to bunch in the near future";
+  console.log(prediction);
   return (
     <div
       className={`${panelStyles.module} ${panelStyles.resultModule}`}

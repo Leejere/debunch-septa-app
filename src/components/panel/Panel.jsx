@@ -64,6 +64,10 @@ export default function Panel({
     />
   );
 
+  useEffect(() => {
+    fetchPrediction();
+  }, [requestParams]);
+
   return (
     <section className={panelStyles.container}>
       <DemoModeSetter isDemo={isDemo} setIsDemo={setIsDemo} />
