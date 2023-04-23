@@ -27,10 +27,14 @@ export default function Panel({
 
   const fetchPrediction = async () => {
     console.log(requestParams);
+    const demoUrlRoot =
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction/";
+    const urlRoot =
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
     setShowResults(false);
     const url = isDemo
-      ? "hello"
-      : "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
+      ? `${demoUrlRoot}${requestParams.route}-${requestParams.direction}-${requestParams.trip}.json`
+      : `${urlRoot}`;
 
     try {
       const response = await fetch(url);
@@ -59,10 +63,6 @@ export default function Panel({
       isDemo={isDemo}
     />
   );
-
-  useEffect(() => {
-    console.log(prediction);
-  }, [prediction]);
 
   return (
     <section className={panelStyles.container}>
