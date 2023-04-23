@@ -43,11 +43,17 @@ function App() {
       const data = await response.json();
       setRealtimeData(data);
     };
-    const fetchRealtimeInterval = setInterval(() => {
+
+    if (isDemo) {
       fetchRealtime(requestParams.route);
-    }, 30000);
-    fetchRealtime(requestParams.route);
-    return () => clearInterval(fetchRealtimeInterval);
+      return;
+    } else {
+      const fetchRealtimeInterval = setInterval(() => {
+        fetchRealtime(requestParams.route);
+      }, 30000);
+      fetchRealtime(requestParams.route);
+      return () => clearInterval(fetchRealtimeInterval);
+    }
   }, [requestParams.route, isDemo]);
 
   return (
