@@ -37,3 +37,9 @@ body {
     flex-direction: column;
   }
 }
+
+.btn-danger {
+  --bs-btn-color: white;
+  --bs-btn-hover-color: white;
+  --bs-btn-active-color: white;
+}

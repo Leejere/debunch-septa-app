@@ -16,14 +16,14 @@ export default function DemoModeSetter({ isDemo, setIsDemo }) {
       <ToggleButton
         id="demo"
         value="demo"
-        variant={isDemo ? "primary" : "light"}
+        variant={isDemo ? "danger" : "light"}
       >
         Demo
       </ToggleButton>
       <ToggleButton
         id="realtime"
         value="realtime"
-        variant={isDemo ? "light" : "primary"}
+        variant={isDemo ? "light" : "danger"}
       >
         Real-time
       </ToggleButton>
