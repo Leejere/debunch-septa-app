@@ -8,6 +8,7 @@ import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
+import DemoPrediction from "./DemoPrediction";
 
 export default function Panel({
   prediction,
@@ -27,7 +28,6 @@ export default function Panel({
   const fetchPrediction = async () => {
     console.log(requestParams);
     setShowResults(false);
-
     const url =
       "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
     try {
@@ -39,6 +39,24 @@ export default function Panel({
       console.log(error);
     }
   };
+
+  const predictionPanel = isDemo ? (
+    <DemoPrediction
+      stopsArray={stopsArray}
+      currentStop={currentStop}
+      prediction={prediction}
+      showResults={showResults}
+      isDemo={isDemo}
+    />
+  ) : (
+    <Prediction
+      stopsArray={stopsArray}
+      currentStop={currentStop}
+      prediction={prediction}
+      showResults={showResults}
+      isDemo={isDemo}
+    />
+  );
 
   useEffect(() => {
     console.log(prediction);
@@ -69,12 +87,7 @@ export default function Panel({
         fetchPrediction={fetchPrediction}
         requestParams={requestParams}
       />
-      <Prediction
-        stopsArray={stopsArray}
-        currentStop={currentStop}
-        prediction={prediction}
-        showResults={showResults}
-      />
+      {predictionPanel}
     </section>
   );
 }
