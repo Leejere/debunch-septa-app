@@ -28,8 +28,10 @@ export default function Panel({
   const fetchPrediction = async () => {
     console.log(requestParams);
     setShowResults(false);
-    const url =
-      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
+    const url = isDemo
+      ? "hello"
+      : "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
+
     try {
       const response = await fetch(url);
       const result = await response.json();

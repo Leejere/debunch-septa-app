@@ -143,7 +143,11 @@ for row in with_prediction.iterrows():
     predictions = [data[f"pred_{step}_prediction"] for step in range(11, 21)]
     json_data = {
         "prediction": [
-            {"stop_id": stop_id, "stop_name": stop_name, "prediction": prediction}
+            {
+                "stop_id": (None if pd.isna(prediction) else stop_id),
+                "stop_name": (None if pd.isna(prediction) else stop_name),
+                "prediction": (None if pd.isna(prediction) else prediction),
+            }
             for stop_id, stop_name, prediction in zip(stop_ids, stop_names, predictions)
         ]
     }
