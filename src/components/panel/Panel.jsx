@@ -47,7 +47,7 @@ export default function Panel({
   return (
     <section className={panelStyles.container}>
       <DemoModeSetter isDemo={isDemo} setIsDemo={setIsDemo} />
-      <TimeDisplayer />
+      <TimeDisplayer isDemo={isDemo} />
       <RouteSelector
         requestParams={requestParams}
         setRequestParams={setRequestParams}

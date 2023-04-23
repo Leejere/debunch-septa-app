@@ -3,7 +3,7 @@ import panelStyles from "./Panel.module.scss";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-export default React.memo(function () {
+export default React.memo(function ({ isDemo }) {
   const [time, setTime] = useState(new Date());
 
   const [showModal, setShowModal] = useState(false);
@@ -19,16 +19,18 @@ export default React.memo(function () {
     return () => clearInterval(interval);
   }, []);
 
-  const hour = time.getHours();
+  const hour = isDemo ? 8 : time.getHours();
   const hourDisplay = (hour > 12 ? hour - 12 : hour)
     .toString()
     .padStart(2, "0");
-  const minutes = time.getMinutes().toString().padStart(2, "0"); // Add leading zero if necessary
+  const minutes = isDemo ? 30 : time.getMinutes().toString().padStart(2, "0"); // Add leading zero if necessary
   const suffix = hour >= 12 ? "PM" : "AM";
 
-  const monthName = time.toLocaleString("default", { month: "long" });
-  const day = time.getDate();
-  const year = time.getFullYear();
+  const monthName = isDemo
+    ? "October"
+    : time.toLocaleString("default", { month: "long" });
+  const day = isDemo ? 26 : time.getDate();
+  const year = isDemo ? 2022 : time.getFullYear();
 
   const dateTimeDisplayer = (
     <div className={panelStyles.dateTimeDisplayer}>
