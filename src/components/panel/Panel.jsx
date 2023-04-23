@@ -16,10 +16,9 @@ export default function Panel({
   setRequestParams,
   realtimeData,
   stopsArray,
+  isDemo,
+  setIsDemo,
 }) {
-  // Is demo mode on?
-  const [isDemo, setIsDemo] = useState(true);
-
   // Whether to show prediction results
   const [showResults, setShowResults] = useState(false);
   // The nearest stop of the currently selected trip
@@ -52,6 +51,8 @@ export default function Panel({
       <RouteSelector
         requestParams={requestParams}
         setRequestParams={setRequestParams}
+        isDemo={isDemo}
+        setIsDemo={setIsDemo}
       />
       <DirectionSelector
         requestParams={requestParams}

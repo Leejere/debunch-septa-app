@@ -23,6 +23,8 @@ function App() {
   const [requestParams, setRequestParams] = useState(initRequestParams);
   const [realtimeData, setRealtimeData] = useState(null);
 
+  const [isDemo, setIsDemo] = useState(true);
+
   // Stops array for current route and direction
   const [stopsArray, setStopsArray] = useState([]);
 
@@ -54,6 +56,7 @@ function App() {
         setRequestParams={setRequestParams} // Pass down method to set request params
         realtimeData={realtimeData} // Pass down realtime location data from transit view
         setStopsArray={setStopsArray} // Pass down method to set current stops array
+        isDemo={isDemo}
       />
       <Panel
         prediction={prediction}
@@ -62,6 +65,8 @@ function App() {
         setRequestParams={setRequestParams}
         realtimeData={realtimeData}
         stopsArray={stopsArray}
+        isDemo={isDemo}
+        setIsDemo={setIsDemo}
       />
     </>
   );
