@@ -3,3 +3,4 @@ build/
 notes/*.xlsx
 **/keys
 **/raw-data/
+**/**.ipynb
