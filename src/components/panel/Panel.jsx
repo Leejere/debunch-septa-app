@@ -28,7 +28,7 @@ export default function Panel({
   const fetchPrediction = async () => {
     console.log(requestParams);
     const demoUrlRoot =
-      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction/";
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction-forward/";
     const urlRoot =
       "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
     setShowResults(false);
@@ -46,15 +46,7 @@ export default function Panel({
     }
   };
 
-  const predictionPanel = isDemo ? (
-    <DemoPrediction
-      stopsArray={stopsArray}
-      currentStop={currentStop}
-      prediction={prediction}
-      showResults={showResults}
-      isDemo={isDemo}
-    />
-  ) : (
+  const predictionPanel = (
     <Prediction
       stopsArray={stopsArray}
       currentStop={currentStop}
@@ -63,7 +55,6 @@ export default function Panel({
       isDemo={isDemo}
     />
   );
-
   useEffect(() => {
     fetchPrediction();
   }, [requestParams]);
