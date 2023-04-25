@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import panelStyles from "./Panel.module.scss";
 import ModuleTitle from "./ModuleTitle";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 
-const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
+const PredictionList = React.memo(function ({
+  stopsSequence,
+  prediction,
+  onListRendered,
+}) {
   const startFrom = 11;
   let abort = false;
   let abortIndex = null;
@@ -33,13 +37,19 @@ const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
       </ListGroup.Item>
     );
   });
+  const listRef = useRef(null);
+  useEffect(() => {
+    if (listRef.current && onListRendered) {
+      onListRendered(listRef.current);
+    }
+  }, [listRef, onListRendered]);
 
   const message =
     abort && abortIndex <= 10
       ? "Predictions not available after initiation of bunching."
       : "Predictions not available after 20 stops ahead";
   return (
-    <ListGroup variant="flush" className={panelStyles.tripList}>
+    <ListGroup ref={listRef} variant="flush" className={panelStyles.tripList}>
       {predictionListEl}
       <ListGroup.Item className={panelStyles.tripListItem}>
         {message}
@@ -68,6 +78,10 @@ export default React.memo(function ({
   const modalContent =
     "Predict whether a trip is going to bunch in the near future";
 
+  // Automatically scroll to the bottom of the list
+  const handleListRendered = useCallback((listElement) => {
+    listElement.scrollTop = listElement.scrollHeight;
+  }, []);
   return (
     <div
       className={`${panelStyles.module} ${panelStyles.resultModule}`}
@@ -78,7 +92,11 @@ export default React.memo(function ({
         modalHeading={"Prediction Results"}
         modalContent={modalContent}
       />
-      <PredictionList stopsSequence={stopsSequence} prediction={prediction} />
+      <PredictionList
+        onListRendered={handleListRendered}
+        stopsSequence={stopsSequence}
+        prediction={prediction}
+      />
     </div>
   );
 });
