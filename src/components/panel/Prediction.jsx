@@ -7,12 +7,16 @@ import Button from "react-bootstrap/Button";
 const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
   const startFrom = 11;
   let abort = false;
+  let abortIndex = null;
   const predictionListEl = stopsSequence.slice(startFrom).map((stop, index) => {
     if (abort) return null;
     const isBunched = prediction[index];
     const status = isBunched ? "Bunch" : "Fine";
     const buttonVariant = isBunched ? "danger" : "success";
-    if (isBunched) abort = true;
+    if (isBunched) {
+      abort = true;
+      abortIndex = index;
+    }
     return (
       <ListGroup.Item key={index} className={panelStyles.tripListItem}>
         <Button
@@ -29,9 +33,17 @@ const PredictionList = React.memo(function ({ stopsSequence, prediction }) {
       </ListGroup.Item>
     );
   });
+
+  const message =
+    abort && abortIndex <= 10
+      ? "Predictions not available after initiation of bunching."
+      : "Predictions not available after 20 stops ahead";
   return (
     <ListGroup variant="flush" className={panelStyles.tripList}>
       {predictionListEl}
+      <ListGroup.Item className={panelStyles.tripListItem}>
+        {message}
+      </ListGroup.Item>
     </ListGroup>
   );
 });
@@ -55,6 +67,7 @@ export default React.memo(function ({
   }, [currentStop]);
   const modalContent =
     "Predict whether a trip is going to bunch in the near future";
+
   return (
     <div
       className={`${panelStyles.module} ${panelStyles.resultModule}`}
