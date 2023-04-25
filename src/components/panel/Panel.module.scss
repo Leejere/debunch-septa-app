@@ -29,11 +29,13 @@
 }
 
 .busSelectorModule {
+  min-height: 100px;
   max-height: 150px;
   overflow: auto;
 }
 
 .resultModule {
+  min-height: 100px;
   flex-grow: 1;
   overflow: auto;
 }
