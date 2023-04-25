@@ -57,7 +57,7 @@ export default function Panel({
   );
   useEffect(() => {
     fetchPrediction();
-  }, [requestParams]);
+  }, [requestParams.route, requestParams.direction, requestParams.trip]);
 
   return (
     <section className={panelStyles.container}>
