@@ -62,7 +62,6 @@ function App() {
       <Map
         prediction={prediction} // Pass down prediction gotten from cloud
         requestParams={requestParams} // Pass down request params
-        currentStop={currentStop}
         setCurrentStop={setCurrentStop}
         setRequestParams={setRequestParams} // Pass down method to set request params
         realtimeData={realtimeData} // Pass down realtime location data from transit view

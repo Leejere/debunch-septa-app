@@ -22,6 +22,7 @@ export default function MapComponent({
   mapParams, // Map params defined in MapContainer component (parent)
   routeData, // Route data (static) fetched in MapContainer component (parent)
   stopsData, // Stops data (static) fetched in MapContainer component (parent)
+  setCurrentStop,
   requestParams, // Request params passed down from index.js
   setRequestParams, // Method to set request params passed down from index.js
   realtimeData, // From realtime transit view API, fetched in index.js and passed down
@@ -81,10 +82,12 @@ export default function MapComponent({
     })
       .addEventListener("click", (e) => {
         // Updated request params with selected trip on click
+        const thisTrip = e.layer.feature.properties;
         setRequestParams({
           ...requestParams,
-          trip: e.layer.feature.properties.trip,
+          trip: thisTrip.trip,
         });
+        setCurrentStop(thisTrip.nextStopId);
       })
       .bindPopup((layer) => makeBusPopupContent(layer.feature));
 

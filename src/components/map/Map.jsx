@@ -39,6 +39,7 @@ export default function Map({
   requestParams,
   setRequestParams,
   realtimeData, // Real-time transit view data, fetched at the higher level
+  setCurrentStop,
   prediction,
   setStopsArray,
 }) {
@@ -97,6 +98,7 @@ export default function Map({
         mapParams={mapParams}
         routeData={routeData}
         stopsData={stopsData}
+        setCurrentStop={setCurrentStop}
         requestParams={requestParams}
         setRequestParams={setRequestParams}
         realtimeData={realtimeData}
