@@ -15,9 +15,9 @@ const appEl = document.getElementById("app");
 function App() {
   // Route and direction of current interest
   const initRequestParams = {
-    route: "21",
+    route: "33",
     direction: "0",
-    trip: null,
+    trip: 64838,
   };
   const predictionTemplate = { prediction: null };
   const [requestParams, setRequestParams] = useState(initRequestParams);
