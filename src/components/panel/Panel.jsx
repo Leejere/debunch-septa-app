@@ -13,6 +13,8 @@ export default function Panel({
   prediction,
   setPrediction,
   requestParams,
+  currentStop,
+  setCurrentStop,
   setRequestParams,
   realtimeData,
   stopsArray,
@@ -21,8 +23,6 @@ export default function Panel({
 }) {
   // Whether to show prediction results
   const [showResults, setShowResults] = useState(false);
-  // The nearest stop of the currently selected trip
-  const [currentStop, setCurrentStop] = useState(null);
 
   const fetchPrediction = async () => {
     console.log(requestParams);

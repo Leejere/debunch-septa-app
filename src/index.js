@@ -26,6 +26,7 @@ function App() {
   const [isDemo, setIsDemo] = useState(true);
 
   // Stops array for current route and direction
+  const [currentStop, setCurrentStop] = useState(null);
   const [stopsArray, setStopsArray] = useState([]);
 
   // Prediction data required from cloud after sending request params
@@ -61,6 +62,8 @@ function App() {
       <Map
         prediction={prediction} // Pass down prediction gotten from cloud
         requestParams={requestParams} // Pass down request params
+        currentStop={currentStop}
+        setCurrentStop={setCurrentStop}
         setRequestParams={setRequestParams} // Pass down method to set request params
         realtimeData={realtimeData} // Pass down realtime location data from transit view
         setStopsArray={setStopsArray} // Pass down method to set current stops array
@@ -70,6 +73,8 @@ function App() {
         prediction={prediction}
         setPrediction={setPrediction}
         requestParams={requestParams}
+        currentStop={currentStop}
+        setCurrentStop={setCurrentStop}
         setRequestParams={setRequestParams}
         realtimeData={realtimeData}
         stopsArray={stopsArray}

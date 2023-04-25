@@ -39,6 +39,7 @@ export default React.memo(function ({
   prediction,
   showResults,
 }) {
+  console.log(currentStop);
   const [stopsSequence, setStopsSequence] = useState([]);
   useEffect(() => {
     stopsArray.forEach((stop, index) => {
