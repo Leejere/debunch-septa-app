@@ -8,7 +8,6 @@ import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
-import DemoPrediction from "./DemoPrediction";
 
 export default function Panel({
   prediction,
