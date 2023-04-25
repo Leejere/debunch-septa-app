@@ -51,41 +51,6 @@ final = sorted.query(
     "observedFromStopDepartureTime < @desired_time < observedToStopArrivalTime"
 ).copy()
 
-# Next, join the prediction results
-prediction = pd.read_csv("server/raw-data/demo-prediction-results.csv")
-prediction = prediction[
-    ["routeId", "directionId", "tripId", "toStopId"]
-    + [col for col in prediction.columns if col.startswith("pred_")]
-]
-
-# data types:
-prediction.toStopId = prediction.toStopId.astype(str)
-prediction.routeId = prediction.routeId.astype(str)
-prediction.directionId = prediction.directionId.astype(str)
-prediction.tripId = prediction.tripId.astype("int32")
-
-with_prediction = final.copy()
-
-joinby_cols = ["routeId", "directionId", "tripId"]
-
-for step in range(11, 21):
-    to_join = (
-        prediction[joinby_cols + ["toStopId", f"pred_{step}"]]
-        .copy()
-        .rename(
-            columns={
-                f"pred_{step}": f"pred_{step}_prediction",
-                "toStopId": f"next_{step}_stopId",
-            }
-        )
-    )
-    with_prediction = with_prediction.merge(
-        to_join,
-        how="left",
-        left_on=joinby_cols + [f"next_{step}_stopId"],
-        right_on=joinby_cols + [f"next_{step}_stopId"],
-    )
-
 # ==============================================================================
 # Generate fake transit view data (locations)
 # ==============================================================================
@@ -127,29 +92,4 @@ for route in routes:
     json_data = {"bus": subset.to_dict(orient="records")}
 
     with open(f"db/demo-transit-view/{route}.json", "w") as f:
-        json.dump(json_data, f)
-
-# ==============================================================================
-# Generate fake prediction data
-# ==============================================================================
-
-for row in with_prediction.iterrows():
-    data = row[1]
-    route = data.routeId
-    direction = data.directionId
-    trip = data.tripId
-    stop_ids = [data[f"next_{step}_stopId"] for step in range(11, 21)]
-    stop_names = [data[f"next_{step}_stopName"] for step in range(11, 21)]
-    predictions = [data[f"pred_{step}_prediction"] for step in range(11, 21)]
-    json_data = {
-        "prediction": [
-            {
-                "stop_id": (None if pd.isna(prediction) else stop_id),
-                "stop_name": (None if pd.isna(prediction) else stop_name),
-                "prediction": (None if pd.isna(prediction) else prediction),
-            }
-            for stop_id, stop_name, prediction in zip(stop_ids, stop_names, predictions)
-        ]
-    }
-    with open(f"db/demo-prediction/{route}-{direction}-{trip}.json", "w") as f:
         json.dump(json_data, f)
