@@ -1,8 +1,10 @@
 import pandas as pd
 import geopandas as gpd
-import os
+import dotenv
 from os.path import dirname
 from google.cloud import storage
+
+dotenv.load_dotenv()
 
 script_dir = dirname(__file__)
 server_dir = dirname(script_dir)
@@ -39,7 +41,7 @@ extract = extract.merge(
     ),
     how="left",
     on=["routeId", "directionId", "toStopId"],
-).drop(["routeId", "directionId"], axis=1)
+)
 
 csv = extract.to_csv(index=False)
 blob.upload_from_string(csv, content_type="text/csv")
