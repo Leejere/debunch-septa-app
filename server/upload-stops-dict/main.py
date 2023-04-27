@@ -1,8 +1,19 @@
 import pandas as pd
 import geopandas as gpd
+import os
+from os.path import dirname
+from google.cloud import storage
 
-runtime = pd.read_parquet("server/raw-data/runtimeDf.gzip")
-stops = gpd.read_file("server/data/stops/stopsGeographyProcessed.shp")
+script_dir = dirname(__file__)
+server_dir = dirname(script_dir)
+
+client = storage.Client()
+bucket = client.bucket("stop-dictionary")
+blob = bucket.blob("stop-info.csv")
+
+runtime = pd.read_parquet(f"{server_dir}/raw-data/runtimeDf.gzip")
+stops = gpd.read_file(f"{server_dir}/data/stops/stopsGeographyProcessed.shp")
+
 stops = stops.rename(columns={"directionI": "directionId", "StopId": "stopId"}).drop(
     "geography", axis=1
 )
@@ -29,3 +40,6 @@ extract = extract.merge(
     how="left",
     on=["routeId", "directionId", "toStopId"],
 ).drop(["routeId", "directionId"], axis=1)
+
+csv = extract.to_csv(index=False)
+blob.upload_from_string(csv, content_type="text/csv")
