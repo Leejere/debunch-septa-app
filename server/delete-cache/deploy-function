@@ -1,0 +1,9 @@
+gcloud functions deploy delete-cache `
+--runtime nodejs18 `
+--trigger-http `
+--source . `
+--region us-east1 `
+--entry-point delete_cache `
+--service-account data-pipeline-user@septa-bunching-prediction.iam.gserviceaccount.com `
+
+gcloud scheduler jobs create http delete-cache-daily --schedule "0 1 * * 1-5" --uri https://us-east1-septa-bunching-prediction.cloudfunctions.net/delete-cache --http-method POST --oidc-service-account-email data-pipeline-user@septa-bunching-prediction.iam.gserviceaccount.com  --location us-east1 --time-zone "America/New_York"
