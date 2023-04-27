@@ -14,7 +14,7 @@ This script uploads two dictionary to Google Cloud Storage:
 """
 
 script_dir = dirname(__file__)
-server_dir = dirname(script_dir)
+server_dir = dirname(dirname(script_dir))
 
 client = storage.Client()
 bucket = client.bucket("stop-dictionary")
