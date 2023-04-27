@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import storage from "@google-cloud/storage";
 import functions from "@google-cloud/functions-framework";
-const routes = ["21", "33", "47", "7"];
+const routes = ["21", "33", "47"];
 
 const client = new storage.Storage();
 const bucket = client.bucket("transit-view-cache");
