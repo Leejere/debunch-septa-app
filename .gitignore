@@ -4,3 +4,4 @@ notes/*.xlsx
 **/keys
 **/raw-data/
 **/test.ipynb
+env/
