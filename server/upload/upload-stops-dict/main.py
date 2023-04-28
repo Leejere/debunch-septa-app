@@ -28,7 +28,14 @@ stop_info = (
     runtime.query("routeId.isin(@routes)")
     .copy()
     .groupby(["routeId", "directionId", "toStopId"])
-    .agg({"toStopPathIndex": "min", "stopPathLength": "mean", "DoW": "size"})
+    .agg(
+        {
+            "toStopPathIndex": "min",
+            "stopPathLength": "mean",
+            "expectedCumRuntimeSeconds": "mean",
+            "DoW": "size",
+        }
+    )
     .query("DoW > 0")
     .copy()
     .reset_index()
@@ -77,6 +84,7 @@ next_stops = sorted.drop(
     [
         "toStopPathIndex",
         "stopPathLength",
+        "expectedCumRuntimeSeconds",
         "routeId",
         "directionId",
         "toStopId",
@@ -89,10 +97,7 @@ stop_info = stop_info.drop(["routeId", "directionId", "toStopId"], axis=1)
 stop_info = stop_info.convert_dtypes()
 
 stop_info_dict = stop_info.set_index("stop_unique_id")[
-    [
-        "toStopPathIndex",
-        "centerCity",
-    ]
+    ["toStopPathIndex", "centerCity", "stopPathLength", "expectedCumRuntimeSeconds"]
 ].to_dict(orient="index")
 
 next_stops = next_stops.convert_dtypes()
