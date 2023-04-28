@@ -1,4 +1,5 @@
 from google.cloud import storage
+from flask import make_response, request
 import functions_framework
 
 
@@ -11,4 +12,6 @@ def delete_cache(request):
     for blob in blobs:
         blob.delete()
 
-    return "OK"
+    response = make_response("OK", 200)
+    response.headers.set("Access-Control-Allow-Origin", "*")
+    return response

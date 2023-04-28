@@ -32,7 +32,20 @@ function App() {
   // Prediction data required from cloud after sending request params
   const [prediction, setPrediction] = useState(predictionTemplate);
 
+  // On mount, clear cache; also clear when closing app
+  useEffect(() => {
+    const clearCache = async () => {
+      const clearCacheFunctionUrl =
+        "https://us-east1-septa-bunching-prediction.cloudfunctions.net/delete-cache";
+      await fetch(clearCacheFunctionUrl);
+      console.log("Cleared cache");
+    };
+    clearCache();
+    return () => clearCache();
+  }, []);
+
   // Fetch data from transit view
+  // While also triggering `cache transit view` cloud function
   useEffect(() => {
     const fetchRealtime = async (route) => {
       const demoUrlRoot =
@@ -49,9 +62,15 @@ function App() {
       fetchRealtime(requestParams.route);
       return;
     } else {
-      const fetchRealtimeInterval = setInterval(() => {
-        fetchRealtime(requestParams.route);
-      }, 30000);
+      const fetchRealtimeInterval = setInterval(async () => {
+        // Fetch realtime data every 10 seconds
+        await fetchRealtime(requestParams.route);
+        // Trigger cloud function every 10 seconds
+        const cacheTransitViewFunctionUrl =
+          "https://us-east1-septa-bunching-prediction.cloudfunctions.net/cache-transit-view";
+        await fetch(cacheTransitViewFunctionUrl);
+        console.log("Cached some TransitView data");
+      }, 10000);
       fetchRealtime(requestParams.route);
       return () => clearInterval(fetchRealtimeInterval);
     }
