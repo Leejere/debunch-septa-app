@@ -84,5 +84,6 @@ const readOnce = async () => {
 
 functions.http("cacheTransitView", async (req, res) => {
   await readOnce();
+  res.set("Access-Control-Allow-Origin", "*");
   res.status(200).send("OK");
 });
