@@ -6,6 +6,8 @@ import json
 from datetime import datetime, timedelta
 import pytz
 import pandas as pd
+from flask import make_response
+import functions_framework
 
 dotenv.load_dotenv()
 
@@ -132,8 +134,6 @@ def make_predictions(route, direction, trip_id):
         print("Prior bus not available")
         return
 
-    # See if we have recorded the first instance of this trip
-
     # We also need the bus before the previous bus to calculate headway
     # for the previous bus
     prev_prev_trip_id = None
@@ -167,7 +167,10 @@ def make_predictions(route, direction, trip_id):
     # Calculate headways
     try:
         predictors["headway"] = calculate_headway(this_bus, prev_bus)
+        print("headway calculated")
         predictors["prevBus_headway"] = calculate_headway(prev_bus, prev_prev_bus)
+        print("headway calculated")
+
         lag_headway = calculate_headway(this_bus, prev_bus, is_latest=False)
         prevBus_lag_headway = calculate_headway(
             prev_bus, prev_prev_bus, is_latest=False
@@ -261,4 +264,4 @@ def make_predictions(route, direction, trip_id):
     print(scores)
 
 
-make_predictions("47", "0", "213529")
+make_predictions("47", "0", "213576")
