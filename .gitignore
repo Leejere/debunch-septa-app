@@ -6,3 +6,5 @@ notes/*.xlsx
 **/test.ipynb
 env/
 .env
+**/serialized-models-dev
+**/serialized-models-deploy
