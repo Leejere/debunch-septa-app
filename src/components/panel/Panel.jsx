@@ -79,10 +79,10 @@ export default function Panel({
         setCurrentStop={setCurrentStop}
         realtimeData={realtimeData}
       />
-      <GetPredictionButton
+      {/* <GetPredictionButton
         fetchPrediction={fetchPrediction}
         requestParams={requestParams}
-      />
+      /> */}
       {predictionPanel}
     </section>
   );
