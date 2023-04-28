@@ -18,7 +18,8 @@ server_dir = dirname(dirname(script_dir))
 
 client = storage.Client()
 bucket = client.bucket("trip-dictionary")
-blob = bucket.blob("trip-info.json")
+trip_info_blob = bucket.blob("trip-info.json")
+trip_start_times_blob = bucket.blob("trip-start-times.json")
 
 runtime = pd.read_parquet(f"{server_dir}/raw-data/runtimeDf.gzip")
 
@@ -39,4 +40,16 @@ trip_info = trip_info.drop("scheduledTripStartTime_noDate", axis=1).convert_dtyp
 
 trip_info_dict = trip_info.to_dict(orient="index")
 
-blob.upload_from_string(json.dumps(trip_info_dict), content_type="application/json")
+trip_schedules = pd.read_csv(f"{server_dir}/raw-data/trip_schedules.csv", index_col=0)
+trip_start_times_dict = (
+    trip_schedules.groupby("trip_id")["departure_time"].min().to_dict()
+)
+
+
+trip_info_blob.upload_from_string(
+    json.dumps(trip_info_dict), content_type="application/json"
+)
+
+trip_start_times_blob.upload_from_string(
+    json.dumps(trip_start_times_dict), content_type="application/json"
+)
