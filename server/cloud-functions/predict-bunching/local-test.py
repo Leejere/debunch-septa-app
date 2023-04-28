@@ -5,6 +5,7 @@ from io import BytesIO
 import json
 from datetime import datetime, timedelta
 import pytz
+import pandas as pd
 
 dotenv.load_dotenv()
 
@@ -60,12 +61,46 @@ def calculate_speed(route, direction, stop_dict, bus, is_latest=True):
     return speed
 
 
+def timestamp_to_timedelta(timestamp):
+    timezone = pytz.timezone("America/New_York")
+    formatted = (
+        datetime.utcfromtimestamp(timestamp)
+        .replace(tzinfo=pytz.utc)
+        .astimezone(timezone)
+    )
+    hours, minutes, seconds = formatted.hour, formatted.minute, formatted.second
+    return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+
+def string_to_timedelta(time_string):
+    formatted = datetime.strptime(time_string, "%H:%M:%S").time()
+    hours, minutes, seconds = formatted.hour, formatted.minute, formatted.second
+    return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+
+def calculate_late(
+    route, direction, trip_id, trip_dict, stop_dict, bus, is_latest=True
+):
+    index = -1 if is_latest else -2
+    this_timestamp = bus[index]["timestamp"]
+    this_stop = bus[index]["next_stop_id"]
+    this_delta = timestamp_to_timedelta(this_timestamp)
+    start_time_string = trip_dict[trip_id]
+    start_delta = string_to_timedelta(start_time_string)
+    cum_runtime = abs(this_delta - start_delta).total_seconds()
+    expected_cum_runtime = stop_dict[f"{route}_{direction}_{this_stop}"][
+        "expectedCumRuntimeSeconds"
+    ]
+    return cum_runtime - expected_cum_runtime
+
+
 def make_predictions(route, direction, trip_id):
+    threshold = 0.015
     # Get dictionaries
     try:
         stop_dict = load_json_from_gcs("stop-dictionary", "stop-info.json")
         next_stops_dict = load_json_from_gcs("stop-dictionary", "next-stops.json")
-        trip_dict = load_json_from_gcs("trip-dictionary", "trip-info.json")
+        trip_dict = load_json_from_gcs("trip-dictionary", "trip-start-times.json")
     except:
         print("Failed to get stop dictionaries")
         return
@@ -96,6 +131,8 @@ def make_predictions(route, direction, trip_id):
     except:
         print("Prior bus not available")
         return
+
+    # See if we have recorded the first instance of this trip
 
     # We also need the bus before the previous bus to calculate headway
     # for the previous bus
@@ -141,7 +178,7 @@ def make_predictions(route, direction, trip_id):
             predictors["prevBus_headway"] - prevBus_lag_headway
         )
 
-        print(predictors)
+        print(json.dumps(predictors, indent=4))
     except:
         print("Failed to calculate headway")
         return
@@ -162,38 +199,66 @@ def make_predictions(route, direction, trip_id):
         predictors["prevBus_speedLagDiff"] = (
             predictors["prevBus_speed"] - prevBus_lag_speed
         )
-        print(predictors)
+        print(json.dumps(predictors, indent=4))
     except:
         print("Failed to calculate speed")
         return
 
     # Calculate lateness
-    def timestamp_to_timedelta(timestamp):
-        timezone = pytz.timezone("America/New_York")
-        formatted = (
-            datetime.utcfromtimestamp(this_timestamp)
-            .replace(tzinfo=pytz.utc)
-            .astimezone(timezone)
-        )
-        hours, minutes, seconds = formatted.hour, formatted.minute, formatted.second
-        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
-
-    def string_to_timedelta(time_string):
-        formatted = datetime.strptime(time_string, "%H:%M:%S").time()
-        hours, minutes, seconds = formatted.hour, formatted.minute, formatted.second
-        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
     try:
-        this_timestamp = this_bus[-1]["timestamp"]
-        this_delta = timestamp_to_timedelta(this_timestamp)
-        start_time_string = trip_dict[trip_id]["start_time"]
-        print("hello")
-        start_delta = string_to_timedelta(start_time_string)
-        cum_runtime = this_delta - start_delta
-        print(cum_runtime)
+        predictors["late"] = calculate_late(
+            route, direction, trip_id, trip_dict, stop_dict, this_bus
+        )
+        predictors["prevBus_late"] = calculate_late(
+            route, direction, trip_id, trip_dict, stop_dict, prev_bus
+        )
+        lag_late = calculate_late(
+            route, direction, trip_id, trip_dict, stop_dict, this_bus, is_latest=False
+        )
+        prevBus_lag_late = calculate_late(
+            route, direction, trip_id, trip_dict, stop_dict, prev_bus, is_latest=False
+        )
+        predictors["lateLagDiff"] = predictors["late"] - lag_late
+        predictors["prevBus_lateLagDiff"] = (
+            predictors["prevBus_late"] - prevBus_lag_late
+        )
+        print(json.dumps(predictors, indent=4))
+
     except:
         print("Failed to calculate lateness")
         return
 
+    predictors["directionId"] = direction
+    predictors["period"] = datetime.now().hour
 
-make_predictions("21", "0", "202830")
+    # Add other variables based on steps
+    this_stop = this_bus[-1]["next_stop_id"]
+
+    scores = []
+    for steps in range(11, 21):
+        try:
+            future_stop_id = next_stops_dict[f"{route}_{direction}_{this_stop}"][
+                f"next_{steps}_unique_id"
+            ]
+            predictors["centerCity"] = stop_dict[future_stop_id]["centerCity"]
+            predictors["toStopPathIndex"] = stop_dict[future_stop_id]["toStopPathIndex"]
+
+            print(json.dumps(predictors, indent=4))
+
+            model = load_joblib_from_gcs(
+                "bunching-prediction-models", f"{route}/{steps}.joblib"
+            )
+            predictors_df = pd.DataFrame(predictors, index=[0])
+            score = model.predict_proba(predictors_df)[0][1]
+            scores.append(score > threshold)
+            print(score)
+
+        except:
+            print(f"Failed to calculate future stop {steps}")
+            scores.append(None)
+
+    print(scores)
+
+
+make_predictions("47", "0", "213529")
