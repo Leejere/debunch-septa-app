@@ -28,14 +28,14 @@ stop_info = (
     runtime.query("routeId.isin(@routes)")
     .copy()
     .groupby(["routeId", "directionId", "toStopId"])
-    .agg({"toStopPathIndex": "min", "DoW": "size"})
+    .agg({"toStopPathIndex": "min", "stopPathLength": "mean", "DoW": "size"})
     .query("DoW > 0")
     .copy()
     .reset_index()
     .drop(["DoW"], axis=1)
 )
 
-stops = gpd.read_file(f"{server_dir}/data/stops/stopsGeographyProcessed.shp")
+stops = gpd.read_file(f"{server_dir}/raw-data/stops/stopsGeographyProcessed.shp")
 stops = stops.rename(columns={"directionI": "directionId", "StopId": "stopId"}).drop(
     "geography", axis=1
 )
@@ -76,6 +76,7 @@ for i in range(1, 22):
 next_stops = sorted.drop(
     [
         "toStopPathIndex",
+        "stopPathLength",
         "routeId",
         "directionId",
         "toStopId",
