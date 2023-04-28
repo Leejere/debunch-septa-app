@@ -18,7 +18,7 @@ from joblib import dump
 
 warnings.filterwarnings("ignore")
 
-is_for_deploy = True
+is_for_deploy = False
 
 script_dir = dirname(__file__)
 server_dir = dirname(script_dir)
