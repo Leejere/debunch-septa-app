@@ -106,7 +106,7 @@ for lagSteps in range(1, 21):
             - runtimeDf[f"prevBus_{var}Lag{lagSteps+1}"]
         )
 
-stops = gpd.read_file(f"{server_dir}/data/stops/stopsGeographyProcessed.shp")
+stops = gpd.read_file(f"{server_dir}/raw-data/stops/stopsGeographyProcessed.shp")
 stops = stops.rename(columns={"directionI": "directionId", "StopId": "stopId"}).drop(
     "geography", axis=1
 )
@@ -209,9 +209,9 @@ def predictForRoute(runtimeDf, route, steps):
 
 
 if is_for_deploy:
-    out_dir = f"{server_dir}/data/serialized-models-deploy"
+    out_dir = f"{server_dir}/raw-data/serialized-models-deploy"
 else:
-    out_dir = f"{server_dir}/data/serialized-models-dev"
+    out_dir = f"{server_dir}/raw-data/serialized-models-dev"
 
 for route in ["21", "33", "47"]:
     for steps in range(1, 21):
