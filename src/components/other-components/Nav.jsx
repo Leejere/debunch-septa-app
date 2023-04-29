@@ -6,6 +6,14 @@ import Modal from "react-bootstrap/Modal";
 
 import navStyles from "./Nav.module.scss";
 
+const ModalText = () => {
+  return (
+    <>
+      <h5>What is the project?</h5>
+    </>
+  );
+};
+
 export default function Nav() {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
@@ -26,9 +34,11 @@ export default function Nav() {
       </div>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title className="modalTitle">SEPTA, Debunched</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <ModalText />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleClose}>
             Close
