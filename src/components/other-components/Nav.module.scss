@@ -118,6 +118,8 @@ nav {
   font-style: italic;
   padding-left: 2em;
   border-left: 3px solid $secondary;
+  font-family: caveat;
+  font-size: 2em;
 }
 
 .modalTitle {
@@ -140,4 +142,12 @@ nav {
 .modePlatesRealtime {
   background-color: $light;
   color: $primary;
+}
+
+.modalText {
+  font-size: 0.9rem;
+}
+
+.caveatIcon {
+  color: $danger;
 }
