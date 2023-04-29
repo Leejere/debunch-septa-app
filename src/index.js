@@ -50,7 +50,7 @@ function App() {
     };
 
     const firstTriggerCacheFunction = async () => {
-      await clearCache();
+      // await clearCache();
       await triggerCacheFunction();
     };
 

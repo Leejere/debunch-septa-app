@@ -26,7 +26,28 @@ export default function Panel({
   // Whether to show prediction results
   const [showResults, setShowResults] = useState(false);
 
-  const fetchPrediction = async () => {
+  const fetchDemoPrediction = async () => {
+    console.log(requestParams);
+    const demoUrlRoot =
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction-forward/";
+    const urlRoot =
+      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
+    setShowResults(false);
+    const url = isDemo
+      ? `${demoUrlRoot}${requestParams.route}-${requestParams.direction}-${requestParams.trip}.json`
+      : `${urlRoot}`;
+
+    try {
+      const response = await fetch(url);
+      const result = await response.json();
+      setPrediction(result.prediction);
+      setShowResults(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchRealtimePrediction = async () => {
     console.log(requestParams);
     const demoUrlRoot =
       "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction-forward/";
@@ -57,7 +78,7 @@ export default function Panel({
     />
   );
   useEffect(() => {
-    fetchPrediction();
+    fetchDemoPrediction();
   }, [
     requestParams.route,
     requestParams.direction,
