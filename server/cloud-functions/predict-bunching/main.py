@@ -115,7 +115,7 @@ def make_predictions(request):
             next_stops_dict = load_json_from_gcs("stop-dictionary", "next-stops.json")
             trip_dict = load_json_from_gcs("trip-dictionary", "trip-start-times.json")
         except:
-            response = make_response_with_cors("Failed to get stop dictionaries")
+            response = make_response_with_cors("Cannot get dictionaries", status=500)
             return response
 
         # Get this bus
@@ -125,12 +125,12 @@ def make_predictions(request):
                 f"{route}/{directionDict[route][direction]}/{trip_id}.json",
             )
         except:
-            print("Failed to get this bus")
+            print("Cannot retrieve the bus based on input params", status=500)
             return
 
         # If no previous bus AT THE MOMENT, then return "No Bus Ahead"
         if this_bus[-1]["prevTrip"] is None:
-            response = make_response_with_cors("No bus ahead")
+            response = make_response_with_cors("No bus ahead to bunch to", status=206)
             return response
 
         prev_trip_id = this_bus[-1]["prevTrip"]
@@ -142,7 +142,9 @@ def make_predictions(request):
                 f"{route}/{directionDict[route][direction]}/{prev_trip_id}.json",
             )
         except:
-            response = make_response_with_cors("Prior bus not available")
+            response = make_response_with_cors(
+                "Cannot retrieve information of the bus running ahead", status=500
+            )
             return response
 
         # We also need the bus before the previous bus to calculate headway
@@ -155,7 +157,8 @@ def make_predictions(request):
 
         if prev_prev_trip_id is None:
             response = make_response_with_cors(
-                "Bus prior to previous bus not available"
+                "Not enough buses passing the same stop have been observed to make predictions",
+                status=206,
             )
             return response
 
@@ -166,14 +169,16 @@ def make_predictions(request):
             )
         except:
             response = make_response_with_cors(
-                "Bus prior to previous bus not available"
+                "Not enough buses passing the same stop have been observed to make predictions",
+                status=206,
             )
             return response
 
         if len(this_bus) < 3 or len(prev_bus) < 3:
             response = make_response_with_cors(
                 "Not enough data to make prediction because \
-                    the buses have not been observed for at least 3 stops"
+                    the buses have not been observed for at least 3 stops",
+                status=206,
             )
             return response
 
@@ -182,20 +187,48 @@ def make_predictions(request):
         # Calculate headways
         try:
             predictors["headway"] = calculate_headway(this_bus, prev_bus)
+        except:
+            make_response_with_cors(
+                "Failed to calculate headway because the scope of training data is exceeded",
+                status=500,
+            )
+            return response
+
+        try:
             predictors["prevBus_headway"] = calculate_headway(prev_bus, prev_prev_bus)
+        except:
+            make_response_with_cors(
+                "Failed to calculate headway of the previous bus \
+                     because the scope of training data is exceeded",
+                status=500,
+            )
+            return response
+
+        try:
             lag_headway = calculate_headway(this_bus, prev_bus, is_latest=False)
+        except:
+            make_response_with_cors(
+                "Failed to calculate lag headway because the scope of training data is exceeded",
+                status=500,
+            )
+            return response
+
+        try:
             prevBus_lag_headway = calculate_headway(
                 prev_bus, prev_prev_bus, is_latest=False
             )
-
-            predictors["headwayLagDiff"] = predictors["headway"] - lag_headway
-            predictors["prevBus_headwayLagDiff"] = (
-                predictors["prevBus_headway"] - prevBus_lag_headway
-            )
-
         except:
-            response = make_response_with_cors("Failed to calculate headway")
+            make_response_with_cors(
+                "Failed to calculate lag headway of the previous bus \
+                     because the scope of training data is exceeded",
+                status=500,
+            )
             return response
+
+        predictors["headwayLagDiff"] = predictors["headway"] - lag_headway
+        predictors["prevBus_headwayLagDiff"] = (
+            predictors["prevBus_headway"] - prevBus_lag_headway
+        )
 
         # Calculate speeds
         try:
@@ -214,7 +247,7 @@ def make_predictions(request):
                 predictors["prevBus_speed"] - prevBus_lag_speed
             )
         except:
-            response = make_response_with_cors("Failed to calculate speed")
+            response = make_response_with_cors("Failed to calculate speed", status=500)
             return response
 
         # Calculate lateness
@@ -250,7 +283,9 @@ def make_predictions(request):
             print(json.dumps(predictors, indent=4))
 
         except:
-            response = make_response_with_cors("Failed to calculate lateness")
+            response = make_response_with_cors(
+                "Failed to calculate lateness", status=500
+            )
             return response
 
         predictors["directionId"] = direction
