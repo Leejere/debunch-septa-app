@@ -40,7 +40,7 @@ function App() {
       await fetch(clearCacheFunctionUrl);
       console.log("Cleared cache");
     };
-    clearCache();
+    // clearCache();
     return () => clearCache();
   }, [isDemo]);
 
@@ -74,10 +74,10 @@ function App() {
         // Fetch realtime data every 10 seconds
         await fetchRealtime(requestParams.route);
         // Trigger cloud function every 10 seconds
-        triggerCacheFunction();
+        // triggerCacheFunction();
       }, 10000);
       fetchRealtime(requestParams.route);
-      triggerCacheFunction();
+      // triggerCacheFunction();
       return () => clearInterval(fetchRealtimeInterval);
     }
   }, [requestParams.route, isDemo]);

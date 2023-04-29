@@ -14,7 +14,6 @@ export default function Nav() {
   const appName = "Will It Bunch?";
   return (
     <nav className={navStyles.nav}>
-      <img className={navStyles.logo} src={septaLogo} />
       <div className={navStyles.bar}>
         <h1 className={navStyles.appName}>{appName}</h1>
         <img className={navStyles.headerPicture} src={headerPicture} />
