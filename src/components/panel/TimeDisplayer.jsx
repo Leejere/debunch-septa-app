@@ -26,6 +26,10 @@ export default React.memo(function ({ isDemo }) {
     .padStart(2, "0");
   const minutes = isDemo ? 30 : time.getMinutes().toString().padStart(2, "0"); // Add leading zero if necessary
   const suffix = hour >= 12 ? "PM" : "AM";
+  const dayOfWeek = isDemo ? 3 : time.getDay();
+
+  const isGoodTime =
+    hour >= 7 && hour <= 19 && dayOfWeek !== 0 && dayOfWeek !== 6;
 
   const monthName = isDemo
     ? "October"
@@ -45,6 +49,11 @@ export default React.memo(function ({ isDemo }) {
     </div>
   );
 
+  const warning = isGoodTime ? null : (
+    <div className={panelStyles.goodTimeWarning}>
+      Now is outside the scope of the training data (7AM to 7PM during workdays)
+    </div>
+  );
   return (
     <div className={panelStyles.module}>
       <div className={panelStyles.dateTimeWithIcon}>
@@ -84,6 +93,7 @@ export default React.memo(function ({ isDemo }) {
           </Modal.Footer>
         </Modal>
       </div>
+      {warning}
     </div>
   );
 });
