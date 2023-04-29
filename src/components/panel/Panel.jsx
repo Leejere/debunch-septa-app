@@ -111,6 +111,7 @@ export default function Panel({
         setRequestParams={setRequestParams}
         setCurrentStop={setCurrentStop}
         realtimeData={realtimeData}
+        isDemo={isDemo}
       />
       {/* <GetPredictionButton
         fetchPrediction={fetchPrediction}

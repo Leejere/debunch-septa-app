@@ -66,6 +66,7 @@ export default React.memo(function ({
   setRequestParams,
   setCurrentStop,
   realtimeData,
+  isDemo,
 }) {
   const [activeTrips, setActiveTrips] = useState([]);
   useEffect(() => {
@@ -86,10 +87,11 @@ export default React.memo(function ({
       if (trip.next_stop_name) {
         setRequestParams({ ...requestParams, trip: trip.trip });
         setCurrentStop(trip.next_stop_id);
+        console.log("Automatically selected trip", trip.trip);
         return;
       }
     }
-  }, [requestParams.route, requestParams.direction]);
+  }, [activeTrips]);
 
   const modalContent =
     "Select a trip to predict. You can do so by clicking on this panel or on the map";
