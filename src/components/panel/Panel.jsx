@@ -58,7 +58,12 @@ export default function Panel({
   );
   useEffect(() => {
     fetchPrediction();
-  }, [requestParams.route, requestParams.direction, requestParams.trip]);
+  }, [
+    requestParams.route,
+    requestParams.direction,
+    requestParams.trip,
+    isDemo,
+  ]);
 
   return (
     <section className={panelStyles.container}>
