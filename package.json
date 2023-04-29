@@ -36,6 +36,7 @@
     "@react-leaflet/core": "^2.1.0",
     "babel-loader": "^9.1.2",
     "bootstrap": "^5.2.3",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "gh-pages": "^5.0.0",

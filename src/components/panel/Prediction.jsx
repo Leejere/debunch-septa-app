@@ -58,12 +58,7 @@ const PredictionList = React.memo(function ({
   );
 });
 
-export default React.memo(function ({
-  stopsArray,
-  currentStop,
-  prediction,
-  showResults,
-}) {
+export default React.memo(function ({ stopsArray, currentStop, prediction }) {
   console.log(currentStop);
   const [stopsSequence, setStopsSequence] = useState([]);
   useEffect(() => {
@@ -83,10 +78,7 @@ export default React.memo(function ({
     listElement.scrollTop = listElement.scrollHeight;
   }, []);
   return (
-    <div
-      className={`${panelStyles.module} ${panelStyles.resultModule}`}
-      style={{ display: showResults ? "flex" : "none" }}
-    >
+    <div className={`${panelStyles.module} ${panelStyles.resultModule}`}>
       <ModuleTitle
         title={"Prediction Results"}
         modalHeading={"Prediction Results"}

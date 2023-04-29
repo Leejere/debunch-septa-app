@@ -6,8 +6,8 @@ import TimeDisplayer from "./TimeDisplayer";
 import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
-import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
+import PredictionFallback from "./PredictionFallback";
 
 export default function Panel({
   isTriggeringCache,
@@ -23,10 +23,15 @@ export default function Panel({
   isDemo,
   setIsDemo,
 }) {
-  // Whether to show prediction results
+  // Whether to show prediction results or resort to fallback
   const [showResults, setShowResults] = useState(false);
 
-  const fetchPrediction = async () => {
+  // Fallback message
+  const [fallbackMessage, setFallbackMessage] = useState(
+    "Fetching prediction..."
+  );
+
+  const fetchDemoPrediction = async () => {
     console.log(requestParams);
     const demoUrlRoot =
       "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction-forward/";
@@ -47,17 +52,49 @@ export default function Panel({
     }
   };
 
-  const predictionPanel = (
+  const fetchRealtimePrediction = async () => {
+    console.log(requestParams);
+    setShowResults(false);
+    setFallbackMessage("Fetching prediction...");
+    const urlRoot =
+      "https://us-east1-septa-bunching-prediction.cloudfunctions.net/make-predictions?";
+    setShowResults(false);
+    const url = `${urlRoot}route=${requestParams.route}&direction=${requestParams.direction}&trip=${requestParams.trip}`;
+
+    try {
+      const response = await fetch(url);
+      if (response.status === 500) {
+        const message = await response.text();
+        setFallbackMessage(message);
+      } else if (response.status === 206) {
+        const message = await response.text();
+        setFallbackMessage(message);
+      } else {
+        const result = await response.json();
+        setPrediction(result);
+        setShowResults(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const predictionPanel = showResults ? (
     <Prediction
       stopsArray={stopsArray}
       currentStop={currentStop}
       prediction={prediction}
-      showResults={showResults}
       isDemo={isDemo}
     />
+  ) : (
+    <PredictionFallback fallbackMessage={fallbackMessage} />
   );
   useEffect(() => {
-    fetchPrediction();
+    if (isDemo) {
+      fetchDemoPrediction();
+    } else {
+      fetchRealtimePrediction();
+    }
   }, [
     requestParams.route,
     requestParams.direction,
@@ -90,6 +127,7 @@ export default function Panel({
         setRequestParams={setRequestParams}
         setCurrentStop={setCurrentStop}
         realtimeData={realtimeData}
+        isDemo={isDemo}
       />
       {/* <GetPredictionButton
         fetchPrediction={fetchPrediction}

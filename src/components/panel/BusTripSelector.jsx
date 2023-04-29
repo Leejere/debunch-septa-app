@@ -66,8 +66,10 @@ export default React.memo(function ({
   setRequestParams,
   setCurrentStop,
   realtimeData,
+  isDemo,
 }) {
   const [activeTrips, setActiveTrips] = useState([]);
+  const [firstActiveTrip, setFirstActiveTrip] = useState(null);
   useEffect(() => {
     if (!realtimeData) return;
     const trips = realtimeData.bus.filter((bus) => {
@@ -77,19 +79,22 @@ export default React.memo(function ({
         ] === requestParams.direction
       );
     });
+    for (let i = 0; i < trips.length; i++) {
+      const trip = trips[i];
+      if (trip.next_stop_name) {
+        console.log("Now setting first active trip");
+        setFirstActiveTrip(trip.trip);
+        console.log("First active trip is", trip.trip);
+        setCurrentStop(trip.next_stop_id);
+        break;
+      }
+    }
     setActiveTrips(trips);
   }, [realtimeData, requestParams.direction]);
 
   useEffect(() => {
-    for (let i = 0; i < activeTrips.length; i++) {
-      const trip = activeTrips[i];
-      if (trip.next_stop_name) {
-        setRequestParams({ ...requestParams, trip: trip.trip });
-        setCurrentStop(trip.next_stop_id);
-        return;
-      }
-    }
-  }, [requestParams.route, requestParams.direction]);
+    setRequestParams({ ...requestParams, trip: firstActiveTrip });
+  }, [firstActiveTrip]);
 
   const modalContent =
     "Select a trip to predict. You can do so by clicking on this panel or on the map";

@@ -188,6 +188,11 @@ $switch-width: 25px;
   justify-content: space-between;
 }
 
+.goodTimeWarning {
+  color: $danger;
+  font-size: 0.8rem;
+}
+
 .getPredictionButton {
   font-size: 1.2rem;
   font-weight: 800;
