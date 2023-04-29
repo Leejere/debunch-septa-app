@@ -62,3 +62,15 @@ nav {
   }
   cursor: pointer;
 }
+
+.wideModal {
+  width: 90%;
+  height: 90%;
+  @include respond-to("tablet") {
+    width: 100%;
+  }
+  @include respond-to("mobile") {
+    width: 100%;
+  }
+  max-width: 100%;
+}
