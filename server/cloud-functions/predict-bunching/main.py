@@ -228,10 +228,17 @@ def make_predictions(request):
             )
             return response
 
-        predictors["headwayLagDiff"] = predictors["headway"] - lag_headway
-        predictors["prevBus_headwayLagDiff"] = (
-            predictors["prevBus_headway"] - prevBus_lag_headway
-        )
+        try:
+            predictors["headwayLagDiff"] = predictors["headway"] - lag_headway
+            predictors["prevBus_headwayLagDiff"] = (
+                predictors["prevBus_headway"] - prevBus_lag_headway
+            )
+        except:
+            make_response_with_cors(
+                "Failed to calculate lag headways \
+                     because the scope of training data is exceeded",
+                status=500,
+            )
 
         # Calculate speeds
         try:

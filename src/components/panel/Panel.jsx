@@ -6,7 +6,6 @@ import TimeDisplayer from "./TimeDisplayer";
 import RouteSelector from "./RouteSelector";
 import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
-import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
 import PredictionFallback from "./PredictionFallback";
 

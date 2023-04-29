@@ -15,7 +15,7 @@ const appEl = document.getElementById("app");
 function App() {
   // Route and direction of current interest
   const initRequestParams = {
-    route: "33",
+    route: "21",
     direction: "0",
     trip: 64838,
   };
@@ -66,26 +66,34 @@ function App() {
 
   // Fetch data from transit view
   useEffect(() => {
-    const fetchRealtime = async (route) => {
+    const fetchFakeTransitView = async (route) => {
       const demoUrlRoot =
         "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-transit-view/";
-      const urlRoot =
-        "https://us-east1-septa-transitview-proxy.cloudfunctions.net/septaProxy?route=";
-      const url = isDemo ? `${demoUrlRoot}${route}.json` : `${urlRoot}${route}`;
+      const url = `${demoUrlRoot}${route}.json`;
       const response = await fetch(url);
       const data = await response.json();
+
+      setRealtimeData(data);
+    };
+    const fetchTransitView = async (route) => {
+      const urlRoot =
+        "https://us-east1-septa-transitview-proxy.cloudfunctions.net/septaProxy?route=";
+      const url = `${urlRoot}${route}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
       setRealtimeData(data);
     };
 
     if (isDemo) {
-      fetchRealtime(requestParams.route);
+      fetchFakeTransitView(requestParams.route);
       return;
     } else {
       const fetchRealtimeInterval = setInterval(async () => {
         // Fetch realtime data every 10 seconds
-        fetchRealtime(requestParams.route);
+        fetchTransitView(requestParams.route);
       }, 10000);
-      fetchRealtime(requestParams.route);
+      fetchTransitView(requestParams.route);
       return () => clearInterval(fetchRealtimeInterval);
     }
   }, [requestParams.route, isDemo]);
