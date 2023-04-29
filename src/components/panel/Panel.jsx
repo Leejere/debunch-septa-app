@@ -8,6 +8,7 @@ import DirectionSelector from "./DirectionSelector";
 import BusTripSelector from "./BusTripSelector";
 import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
+import PredictionFallback from "./PredictionFallback";
 
 export default function Panel({
   isTriggeringCache,
@@ -73,7 +74,6 @@ export default function Panel({
       stopsArray={stopsArray}
       currentStop={currentStop}
       prediction={prediction}
-      showResults={showResults}
       isDemo={isDemo}
     />
   );
