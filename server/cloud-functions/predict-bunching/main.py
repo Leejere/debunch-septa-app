@@ -1,4 +1,3 @@
-import dotenv
 from google.cloud import storage
 from joblib import load
 from io import BytesIO
@@ -96,8 +95,10 @@ def calculate_late(
 
 
 def make_response_with_cors(message, status=200):
-    response = make_response(message, 200)
+    response = make_response(message, status)
     response.headers.set("Access-Control-Allow-Origin", "*")
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type")
     return response
 
 
@@ -125,8 +126,10 @@ def make_predictions(request):
                 f"{route}/{directionDict[route][direction]}/{trip_id}.json",
             )
         except:
-            print("Cannot retrieve the bus based on input params", status=500)
-            return
+            response = make_response_with_cors(
+                "Cannot retrieve the bus based on input params", status=500
+            )
+            return response
 
         # If no previous bus AT THE MOMENT, then return "No Bus Ahead"
         if this_bus[-1]["prevTrip"] is None:
@@ -280,7 +283,6 @@ def make_predictions(request):
             predictors["prevBus_lateLagDiff"] = (
                 predictors["prevBus_late"] - prevBus_lag_late
             )
-            print(json.dumps(predictors, indent=4))
 
         except:
             response = make_response_with_cors(
@@ -305,8 +307,6 @@ def make_predictions(request):
                     "toStopPathIndex"
                 ]
 
-                print(json.dumps(predictors, indent=4))
-
                 model = load_joblib_from_gcs(
                     "bunching-prediction-models", f"{route}/{steps}.joblib"
                 )
@@ -319,9 +319,9 @@ def make_predictions(request):
             except:
                 scores.append(None)
 
-        response = make_response_with_cors(json.dumps(scores))
+        response = make_response_with_cors(json.dumps(scores), status=200)
         return response
 
     except Exception as e:
-        response = make_response_with_cors(f"Error: {e}", 500)
+        response = make_response_with_cors(f"Error: {e}", status=500)
         return response
