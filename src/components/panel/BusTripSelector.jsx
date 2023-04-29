@@ -78,15 +78,18 @@ export default React.memo(function ({
       );
     });
     setActiveTrips(trips);
-    for (let i = 0; i < trips.length; i++) {
-      const trip = trips[i];
+  }, [realtimeData, requestParams.direction]);
+
+  useEffect(() => {
+    for (let i = 0; i < activeTrips.length; i++) {
+      const trip = activeTrips[i];
       if (trip.next_stop_name) {
         setRequestParams({ ...requestParams, trip: trip.trip });
         setCurrentStop(trip.next_stop_id);
         return;
       }
     }
-  }, [realtimeData, requestParams.direction]);
+  }, [requestParams.route, requestParams.direction]);
 
   const modalContent =
     "Select a trip to predict. You can do so by clicking on this panel or on the map";

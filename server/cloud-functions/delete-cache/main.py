@@ -14,4 +14,6 @@ def delete_cache(request):
 
     response = make_response("OK", 200)
     response.headers.set("Access-Control-Allow-Origin", "*")
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE")
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type")
     return response
