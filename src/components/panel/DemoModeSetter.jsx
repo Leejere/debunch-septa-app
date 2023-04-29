@@ -6,7 +6,12 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import navStyles from "../other-components/Nav.module.scss";
 
-export default function DemoModeSetter({ isDemo, setIsDemo }) {
+export default function DemoModeSetter({
+  isDemo,
+  setIsDemo,
+  isTriggeringCache,
+  setIsTriggeringCache,
+}) {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -49,8 +54,18 @@ export default function DemoModeSetter({ isDemo, setIsDemo }) {
           are available.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={handleClose}>
-            <span style={{ fontWeight: "700" }}>Start Observing</span>
+          <Button
+            variant="danger"
+            disabled={isTriggeringCache ? true : false}
+            onClick={() => {
+              if (!isTriggeringCache) {
+                setIsTriggeringCache(true);
+              }
+            }}
+          >
+            <span style={{ fontWeight: "700" }}>
+              {isTriggeringCache ? "Already Observing" : "Start Observing"}
+            </span>
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Got it

@@ -10,6 +10,8 @@ import GetPredictionButton from "./GetPredictionButton";
 import Prediction from "./Prediction";
 
 export default function Panel({
+  isTriggeringCache,
+  setIsTriggeringCache,
   prediction,
   setPrediction,
   requestParams,
@@ -60,7 +62,12 @@ export default function Panel({
 
   return (
     <section className={panelStyles.container}>
-      <DemoModeSetter isDemo={isDemo} setIsDemo={setIsDemo} />
+      <DemoModeSetter
+        isDemo={isDemo}
+        setIsDemo={setIsDemo}
+        isTriggeringCache={isTriggeringCache}
+        setIsTriggeringCache={setIsTriggeringCache}
+      />
       <TimeDisplayer isDemo={isDemo} />
       <RouteSelector
         requestParams={requestParams}
