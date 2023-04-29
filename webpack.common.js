@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -8,6 +9,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "template.html"),
+      favicon: path.join(__dirname, "src", "assets", "title-icon.png"),
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, "src", "assets"),
+          to: "assets",
+          globOptions: {
+            ignore: ["**/*.DS_Store"],
+          },
+        },
+      ],
     }),
   ],
   module: {
