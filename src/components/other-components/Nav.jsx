@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import septaLogo from "../../assets/septa-logo.png";
 import headerPicture from "../../assets/header-picture.png";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
 import navStyles from "./Nav.module.scss";
+import ModalTitle from "./NavModalTitle";
+import ModalText from "./NavModalText";
 
 export default function Nav() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
   const appName = "Will It Bunch?";
   return (
     <nav className={navStyles.nav}>
-      <img className={navStyles.logo} src={septaLogo} />
       <div className={navStyles.bar}>
         <h1 className={navStyles.appName}>{appName}</h1>
         <img className={navStyles.headerPicture} src={headerPicture} />
@@ -25,14 +24,23 @@ export default function Nav() {
           info
         </span>
       </div>
-      <Modal show={showModal} onHide={handleClose}>
+      <Modal
+        show={showModal}
+        onHide={handleClose}
+        size="lg"
+        dialogClassName={navStyles.wideModal}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title className="modalTitle">
+            <ModalTitle />
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+          <ModalText />
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleClose}>
-            Close
+            Explore
           </Button>
         </Modal.Footer>
       </Modal>
