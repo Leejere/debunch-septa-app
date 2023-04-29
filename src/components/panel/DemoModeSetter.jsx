@@ -50,7 +50,7 @@ export default function DemoModeSetter({ isDemo, setIsDemo }) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={handleClose}>
-            Start Observing
+            <span style={{ fontWeight: "700" }}>Start Observing</span>
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Got it
