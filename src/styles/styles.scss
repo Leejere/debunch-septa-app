@@ -43,3 +43,13 @@ body {
   --bs-btn-hover-color: white;
   --bs-btn-active-color: white;
 }
+
+.modalTitle {
+  color: $primary;
+  font-weight: 800;
+}
+
+.modalSubtitle {
+  color: $primary;
+  font-weight: 600;
+}
