@@ -68,9 +68,76 @@ nav {
   height: 90%;
   @include respond-to("tablet") {
     width: 100%;
+    margin-left: 0;
   }
   @include respond-to("mobile") {
     width: 100%;
+    margin-left: 0;
   }
   max-width: 100%;
+}
+
+.modalTitleBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  @include respond-to("mobile") {
+    flex-direction: column;
+    gap: 10px;
+  }
+  @include respond-to("tablet") {
+    flex-direction: column;
+    gap: 10px;
+  }
+  align-items: baseline;
+}
+
+.authors {
+  font-size: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  @include respond-to("mobile") {
+    flex-direction: column;
+    gap: 0;
+    font-size: 0.9rem;
+  }
+  @include respond-to("tablet") {
+    font-size: 0.9rem;
+  }
+  font-weight: 500;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modalQuote {
+  font-style: italic;
+  padding-left: 2em;
+  border-left: 3px solid $secondary;
+}
+
+.modalTitle {
+  color: $danger;
+}
+
+.modePlates {
+  border-radius: 5px;
+  padding: 1px 5px;
+  font-weight: 700;
+  background-color: $primary;
+  color: white;
+}
+
+.modePlatesDemo {
+  background-color: $danger;
+  color: white;
+}
+
+.modePlatesRealtime {
+  background-color: $light;
+  color: $primary;
 }
