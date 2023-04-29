@@ -53,3 +53,8 @@ body {
   color: $primary;
   font-weight: 600;
 }
+
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
