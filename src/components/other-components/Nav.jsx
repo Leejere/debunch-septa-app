@@ -9,7 +9,7 @@ import navStyles from "./Nav.module.scss";
 const ModalText = () => {
   return (
     <>
-      <h5>What is the project?</h5>
+      <h5 className="modalSubtitle">What is the project?</h5>
     </>
   );
 };
@@ -32,7 +32,7 @@ export default function Nav() {
           info
         </span>
       </div>
-      <Modal show={showModal} onHide={handleClose}>
+      <Modal show={showModal} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="modalTitle">SEPTA, Debunched</Modal.Title>
         </Modal.Header>
