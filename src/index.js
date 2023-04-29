@@ -48,10 +48,15 @@ function App() {
       await fetch(clearCacheFunctionUrl);
       console.log("Cleared cache");
     };
+
+    const firstTriggerCacheFunction = async () => {
+      await clearCache();
+      await triggerCacheFunction();
+    };
+
     if (isTriggeringCache) {
       setInterval(triggerCacheFunction, 10000);
-      clearCache();
-      triggerCacheFunction();
+      firstTriggerCacheFunction();
     }
 
     return () => {
