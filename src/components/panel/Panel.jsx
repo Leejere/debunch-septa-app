@@ -24,8 +24,13 @@ export default function Panel({
   isDemo,
   setIsDemo,
 }) {
-  // Whether to show prediction results
+  // Whether to show prediction results or resort to fallback
   const [showResults, setShowResults] = useState(false);
+
+  // Fallback message
+  const [fallbackMessage, setFallbackMessage] = useState(
+    "Fetching prediction..."
+  );
 
   const fetchDemoPrediction = async () => {
     console.log(requestParams);
@@ -50,35 +55,47 @@ export default function Panel({
 
   const fetchRealtimePrediction = async () => {
     console.log(requestParams);
-    const demoUrlRoot =
-      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/demo-prediction-forward/";
-    const urlRoot =
-      "https://raw.githubusercontent.com/Leejere/debunch-septa-app/main/db/mock_prediction.json";
     setShowResults(false);
-    const url = isDemo
-      ? `${demoUrlRoot}${requestParams.route}-${requestParams.direction}-${requestParams.trip}.json`
-      : `${urlRoot}`;
+    setFallbackMessage("Fetching prediction...");
+    const urlRoot =
+      "https://us-east1-septa-bunching-prediction.cloudfunctions.net/make-predictions?";
+    setShowResults(false);
+    const url = `${urlRoot}route=${requestParams.route}&direction=${requestParams.direction}&trip=${requestParams.trip}`;
 
     try {
       const response = await fetch(url);
-      const result = await response.json();
-      setPrediction(result.prediction);
-      setShowResults(true);
+      if (response.status === 500) {
+        const message = await response.text();
+        setFallbackMessage(message);
+      } else if (response.status === 206) {
+        const message = await response.text();
+        setFallbackMessage(message);
+      } else {
+        const result = await response.json();
+        setPrediction(result);
+        setShowResults(true);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const predictionPanel = (
+  const predictionPanel = showResults ? (
     <Prediction
       stopsArray={stopsArray}
       currentStop={currentStop}
       prediction={prediction}
       isDemo={isDemo}
     />
+  ) : (
+    <PredictionFallback fallbackMessage={fallbackMessage} />
   );
   useEffect(() => {
-    fetchDemoPrediction();
+    if (isDemo) {
+      fetchDemoPrediction();
+    } else {
+      fetchRealtimePrediction();
+    }
   }, [
     requestParams.route,
     requestParams.direction,
