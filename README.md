@@ -1,5 +1,7 @@
 # SEPTA, Debunched
 
+[Visit the app](https://leejere.github.io/debunch-septa-app/)
+
 ## Why this project?
 
 Knowing when buses are coming, riders plan their trips without stress. Unfortunately, disruptions occur and affect some buses more than others, leading to bunching, where two buses arrive at a stop consecutively, accompanied by subsequent gapping, where riders have to wait a long time after the bunched buses left. This should not happen too often to a reliable bus service.
