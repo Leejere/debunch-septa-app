@@ -1,0 +1,3 @@
+deploy-function
+.gcloudignore
+local-test.py

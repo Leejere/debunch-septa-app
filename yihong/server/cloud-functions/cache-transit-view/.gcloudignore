@@ -1,0 +1,9 @@
+.gcloudignore
+.git
+.gitignore
+deploy-function
+raw-data
+keys
+
+node_modules/
+*.pyc

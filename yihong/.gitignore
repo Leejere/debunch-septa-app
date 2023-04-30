@@ -1,0 +1,47 @@
+# Editor and IDE files
+.DS_Store
+.vscode/
+
+# Environments and dependencies
+.env
+*.pyc
+env/
+node_modules/
+
+# Data
+data/
+server/musa-cloud-computing-461d2a2dff9f.json
+server/musa-cloud-computing-94ed5397a0cb.json
+raw-data/
+server/serialized-models/
+*.joblib
+
+server/serialized-models/21-12.joblib
+server/serialized-models/21-13.joblib
+server/serialized-models/21-14.joblib
+server/serialized-models/21-15.joblib
+server/serialized-models/21-16.joblib
+server/serialized-models/21-17.joblib
+server/serialized-models/21-18.joblib
+server/serialized-models/21-19.joblib
+server/serialized-models/21-20.joblib
+server/serialized-models/33-11.joblib
+server/serialized-models/33-12.joblib
+server/serialized-models/33-13.joblib
+server/serialized-models/33-14.joblib
+server/serialized-models/33-15.joblib
+server/serialized-models/33-16.joblib
+server/serialized-models/33-17.joblib
+server/serialized-models/33-18.joblib
+server/serialized-models/33-19.joblib
+server/serialized-models/33-20.joblib
+server/serialized-models/47-11.joblib
+server/serialized-models/47-12.joblib
+server/serialized-models/47-13.joblib
+server/serialized-models/47-14.joblib
+server/serialized-models/47-15.joblib
+server/serialized-models/47-16.joblib
+server/serialized-models/47-17.joblib
+server/serialized-models/47-18.joblib
+server/serialized-models/47-19.joblib
+server/serialized-models/47-20.joblib

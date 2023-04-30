@@ -1,0 +1,13 @@
+{
+  "name": "septa-proxy-function",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "functions-framework --source=index.js --target=septaProxy"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.1",
+    "@google-cloud/functions-framework": "^3.1.3"
+  }
+}
