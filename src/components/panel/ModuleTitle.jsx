@@ -31,7 +31,7 @@ export default React.memo(function ({
         <Modal.Body>{modalContent}</Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleClose}>
-            Close
+            Got it
           </Button>
         </Modal.Footer>
       </Modal>

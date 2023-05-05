@@ -87,7 +87,10 @@ export default function Panel({
       isDemo={isDemo}
     />
   ) : (
-    <PredictionFallback fallbackMessage={fallbackMessage} />
+    <PredictionFallback
+      fallbackMessage={fallbackMessage}
+      setIsDemo={setIsDemo}
+    />
   );
   useEffect(() => {
     if (isDemo) {

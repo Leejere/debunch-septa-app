@@ -226,6 +226,11 @@ $switch-width: 25px;
   font-weight: 700;
 }
 
+.tripButtonWide {
+  width: auto;
+  color: white;
+}
+
 .tripListNear {
   font-style: italic;
 }
@@ -262,4 +267,18 @@ $switch-width: 25px;
 
 .demoModeSetter *:hover {
   color: $primary;
+}
+
+.midModal {
+  width: 100%;
+  height: auto;
+  @include respond-to("tablet") {
+    width: 80%;
+    margin-left: 0;
+  }
+  @include respond-to("mobile") {
+    width: 100%;
+    margin-left: 0;
+  }
+  max-width: 100%;
 }
