@@ -51,7 +51,8 @@ export default React.memo(function ({ isDemo }) {
 
   const warning = isGoodTime ? null : (
     <div className={panelStyles.goodTimeWarning}>
-      Now is outside the scope of the training data (7AM to 7PM during workdays)
+      Now is outside the scope of the training data (7AM to 7PM during
+      workdays). You may get inaccurate or no predictions.
     </div>
   );
   return (
@@ -66,7 +67,7 @@ export default React.memo(function ({ isDemo }) {
         </span>
         <Modal show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Time of Prediction</Modal.Title>
+            <Modal.Title>What's the time?</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             In the{" "}
