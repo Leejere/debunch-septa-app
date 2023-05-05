@@ -8,3 +8,4 @@ env/
 .env
 **/serialized-models-dev
 **/serialized-models-deploy
+**/deploy-cli-template

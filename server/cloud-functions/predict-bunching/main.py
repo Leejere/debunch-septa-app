@@ -127,7 +127,7 @@ def make_predictions(request):
             )
         except:
             response = make_response_with_cors(
-                "Cannot retrieve the bus based on input params", status=500
+                "Cannot retrieve the bus based on input params", status=206
             )
             return response
 
@@ -146,7 +146,7 @@ def make_predictions(request):
             )
         except:
             response = make_response_with_cors(
-                "Cannot retrieve information of the bus running ahead", status=500
+                "Cannot retrieve information of the bus running ahead", status=206
             )
             return response
 
@@ -193,7 +193,7 @@ def make_predictions(request):
         except:
             make_response_with_cors(
                 "Failed to calculate headway because the scope of training data is exceeded",
-                status=500,
+                status=206,
             )
             return response
 
@@ -203,7 +203,7 @@ def make_predictions(request):
             make_response_with_cors(
                 "Failed to calculate headway of the previous bus \
                      because the scope of training data is exceeded",
-                status=500,
+                status=206,
             )
             return response
 
@@ -212,7 +212,7 @@ def make_predictions(request):
         except:
             make_response_with_cors(
                 "Failed to calculate lag headway because the scope of training data is exceeded",
-                status=500,
+                status=206,
             )
             return response
 
@@ -224,7 +224,7 @@ def make_predictions(request):
             make_response_with_cors(
                 "Failed to calculate lag headway of the previous bus \
                      because the scope of training data is exceeded",
-                status=500,
+                status=206,
             )
             return response
 
@@ -237,7 +237,7 @@ def make_predictions(request):
             make_response_with_cors(
                 "Failed to calculate lag headways \
                      because the scope of training data is exceeded",
-                status=500,
+                status=206,
             )
 
         # Calculate speeds
@@ -257,7 +257,7 @@ def make_predictions(request):
                 predictors["prevBus_speed"] - prevBus_lag_speed
             )
         except:
-            response = make_response_with_cors("Failed to calculate speed", status=500)
+            response = make_response_with_cors("Failed to calculate speed", status=206)
             return response
 
         # Calculate lateness
@@ -293,7 +293,7 @@ def make_predictions(request):
 
         except:
             response = make_response_with_cors(
-                "Failed to calculate lateness", status=500
+                "Failed to calculate lateness", status=206
             )
             return response
 
